@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import packageJson from "../../package.json";
 
 import { Sidebar } from "@/components/sidebar";
 import { TopNav } from "@/components/top-nav";
@@ -19,7 +20,7 @@ export default function RootLayout({
     <html lang="en" className="dark h-full">
       <body className="min-h-full">
         <TopNav />
-        <Sidebar />
+        <Sidebar version={packageJson.version} />
         <main className="min-h-screen pt-16 lg:pl-16">{children}</main>
       </body>
     </html>

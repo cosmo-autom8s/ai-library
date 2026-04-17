@@ -66,7 +66,24 @@ function NavLink({
   );
 }
 
-export function Sidebar() {
+interface SidebarProps {
+  version: string;
+}
+
+function VersionFooter({ version }: SidebarProps) {
+  return (
+    <div className="mt-auto border-t border-sidebar-border px-3 py-3 text-helper">
+      <div className="flex h-10 items-center justify-center rounded-lg border border-card-border/70 bg-card-surface/60 px-2 text-[0.7rem] font-black leading-none tracking-normal group-hover:justify-start group-hover:gap-2 group-hover:px-3">
+        <span className="group-hover:hidden">v{version}</span>
+        <span className="hidden whitespace-nowrap group-hover:inline">
+          Version {version}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+export function Sidebar({ version }: SidebarProps) {
   const pathname = usePathname();
 
   return (
@@ -79,7 +96,7 @@ export function Sidebar() {
           </SheetTrigger>
           <SheetContent
             side="left"
-            className="w-72 border-sidebar-border bg-sidebar p-0 text-sidebar-foreground"
+            className="flex w-72 flex-col border-sidebar-border bg-sidebar p-0 text-sidebar-foreground"
           >
             <SheetHeader className="border-b border-sidebar-border p-4">
               <SheetTitle className="font-display text-xl font-black text-heading">
@@ -91,6 +108,9 @@ export function Sidebar() {
                 <NavLink key={item.label} {...item} />
               ))}
             </nav>
+            <div className="mt-auto border-t border-sidebar-border p-4 text-sm font-black text-helper">
+              Version {version}
+            </div>
           </SheetContent>
         </Sheet>
       </div>
@@ -140,6 +160,8 @@ export function Sidebar() {
               </Link>
             );
           })}
+
+          <VersionFooter version={version} />
         </nav>
       </aside>
     </>

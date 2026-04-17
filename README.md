@@ -1,6 +1,6 @@
 # AI Knowledge Library
 
-Version `0.1.0`
+Version `0.1.1`
 
 Cosmo's curated library of AI Knowledge — prompts, agents, skills, workflows, tools, curated resources, and lessons learned — organized so that both him and anyone else can actually find and use them.
 
@@ -10,7 +10,7 @@ Built by Cosmin 'Cosmo' Lungu ([Autom8Lab](https://autom8lab.com)) as the BUILD 
 
 ## Status
 
-`0.1.0` is ready for publishing as a static Vercel deployment candidate.
+`0.1.1` is ready for publishing as a static Vercel deployment candidate.
 
 Implemented:
 - Next.js 16 App Router project created with `create-next-app`
@@ -53,6 +53,23 @@ npm run build
 ```
 
 The build runs Velite first, validates content, and then generates the static Next.js routes.
+
+## Versioning
+
+Every commit must update the project version before it is committed. This keeps the visible app version, package metadata, and Git history aligned.
+
+Use semantic versioning:
+- Patch version: update the last number for normal commits, fixes, docs, small UI changes, and content updates. Example: `0.1.1` -> `0.1.2`.
+- Minor version: update the middle number for meaningful feature groups or larger milestones. Example: `0.1.9` -> `0.2.0`.
+- Major version: update the first number for breaking changes, major redesigns, or production-level releases. Example: `0.9.8` -> `1.0.0`.
+
+The sidebar displays the version from `package.json`, so `package.json` and `package-lock.json` are the version source of truth.
+
+Recommended command for a normal commit:
+
+```bash
+npm version patch --no-git-tag-version
+```
 
 ## Tech stack
 
@@ -116,12 +133,12 @@ Implementation source:
 - [Design spec](docs/superpowers/specs/2026-04-16-ai-knowledge-library-design.md)
 - [Implementation plan](docs/superpowers/plans/2026-04-16-ai-knowledge-library.md)
 
-## Publishing checklist for 0.1.0
+## Publishing checklist
 
 - `npm run build` passes
 - `npm run lint` passes
 - `npm audit` has no known vulnerabilities
-- `package.json` version is `0.1.0`
+- `package.json` version matches the intended release version
 - Vercel can build with the checked-in `vercel.ts`
 - Starter MDX content exists in `/content/entries/`
 - Brand tokens are documented in [docs/BRANDING.md](docs/BRANDING.md)
