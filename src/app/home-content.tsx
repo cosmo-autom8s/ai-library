@@ -9,6 +9,7 @@ import { SearchBar } from "@/components/search-bar";
 import { TabRow } from "@/components/tab-row";
 import { TypeChips } from "@/components/type-chips";
 import type { Entry } from "@/lib/entries";
+import { createSearchIndex, searchEntries } from "@/lib/search";
 
 interface HomeContentProps {
   allEntries: Entry[];
@@ -27,28 +28,33 @@ export function HomeContent({
   const [activeType, setActiveType] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const searchIndex = useMemo(() => createSearchIndex(allEntries), [allEntries]);
+
   const displayEntries = useMemo(() => {
-    const normalizedQuery = searchQuery.trim().toLowerCase();
-    let result =
-      activeTab === "featured" || activeTab === "trending"
-        ? featuredEntries
-        : allEntries;
+    let result: Entry[];
+
+    if (searchQuery.trim()) {
+      result = searchEntries(searchIndex, searchQuery);
+    } else {
+      result =
+        activeTab === "featured" || activeTab === "trending"
+          ? featuredEntries
+          : allEntries;
+    }
 
     if (activeType) {
       result = result.filter((entry) => entry.type === activeType);
     }
 
-    if (normalizedQuery) {
-      result = result.filter(
-        (entry) =>
-          entry.title.toLowerCase().includes(normalizedQuery) ||
-          entry.description.toLowerCase().includes(normalizedQuery) ||
-          entry.tags.some((tag) => tag.toLowerCase().includes(normalizedQuery)),
-      );
-    }
-
     return result;
-  }, [activeTab, activeType, allEntries, featuredEntries, searchQuery]);
+  }, [
+    activeTab,
+    activeType,
+    allEntries,
+    featuredEntries,
+    searchIndex,
+    searchQuery,
+  ]);
 
   return (
     <div className="min-h-screen bg-background">
