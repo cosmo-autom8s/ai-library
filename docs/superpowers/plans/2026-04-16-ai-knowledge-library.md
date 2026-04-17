@@ -4,9 +4,9 @@
 
 **Goal:** Build a public AI Knowledge Library — a TAAFT-inspired dashboard app for browsing, filtering, and searching AI resources (prompts, agents, workflows, tools, curated links, blog posts), skinned with the Autom8Lab brand.
 
-**Architecture:** Next.js 15 App Router with static site generation. MDX files in `/content/entries/` are the content source, processed by Velite at build time into typed collections. shadcn/ui components styled with Autom8Lab design tokens. Fuse.js for client-side search.
+**Architecture:** Next.js 16 App Router with static site generation. MDX files in `/content/entries/` are the content source, processed by Velite at build time into typed collections. shadcn/ui components styled with Autom8Lab design tokens. Fuse.js for client-side search.
 
-**Tech Stack:** Next.js 15, Tailwind v4, shadcn/ui, Velite, Fuse.js, Vercel
+**Tech Stack:** Next.js 16, Tailwind v4, shadcn/ui, Velite, Fuse.js, Vercel
 
 **Design Reference:** theresanaiforthat.com — screenshots and saved HTML in `docs/design-references/`
 
@@ -71,20 +71,20 @@ ai-knowledge-library/
 
 ---
 
-### Task 1: Scaffold Next.js 15 + Tailwind v4 + shadcn/ui
+### Task 1: Scaffold Next.js 16 + Tailwind v4 + shadcn/ui
 
 **Files:**
 - Create: `package.json`, `next.config.ts`, `tsconfig.json`, `.gitignore`
 - Create: `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/globals.css`
 
-- [ ] **Step 1: Create Next.js 15 app**
+- [ ] **Step 1: Create Next.js 16 app**
 
 ```bash
 cd /Users/cosmo/Documents/AIProjects/ai-knowledge-library
 npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --use-npm
 ```
 
-When prompted, accept defaults. This creates the Next.js 15 scaffold with Tailwind v4 and App Router.
+When prompted, accept defaults. This creates the Next.js 16 scaffold with Tailwind v4 and App Router.
 
 - [ ] **Step 2: Verify it runs**
 
@@ -125,7 +125,7 @@ Expected: Build succeeds with no errors.
 
 ```bash
 git add -A
-git commit -m "feat: scaffold Next.js 15 + Tailwind v4 + shadcn/ui"
+git commit -m "feat: scaffold Next.js 16 + Tailwind v4 + shadcn/ui"
 ```
 
 ---

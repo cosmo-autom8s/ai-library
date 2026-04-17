@@ -15,7 +15,7 @@ Built by Cosmin 'Cosmo' Lungu ([Autom8Lab](https://autom8lab.com)) as the BUILD 
 
 ## Tech stack
 
-- **Next.js 15** (App Router) + **Tailwind v4** + **shadcn/ui**
+- **Next.js 16** (App Router) + **Tailwind v4** + **shadcn/ui**
 - **Velite** for MDX content processing at build time
 - **Fuse.js** for client-side fuzzy search
 - **Vercel** for deployment

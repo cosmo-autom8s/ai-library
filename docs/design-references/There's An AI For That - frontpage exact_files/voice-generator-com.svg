@@ -1,0 +1,47 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+
+<defs>
+<linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#000000"></stop>
+<stop offset="40%" stop-color="#020617"></stop>
+<stop offset="70%" stop-color="#0a1f44"></stop>
+<stop offset="100%" stop-color="#0a3c91"></stop>
+</linearGradient>
+
+<radialGradient id="g1">
+<stop offset="0%" stop-color="#3ea0ff"></stop>
+<stop offset="100%" stop-color="#3ea0ff" stop-opacity="0"></stop>
+</radialGradient>
+
+<radialGradient id="g2">
+<stop offset="0%" stop-color="#1e63d6"></stop>
+<stop offset="100%" stop-color="#1e63d6" stop-opacity="0"></stop>
+</radialGradient>
+
+<filter id="blur">
+<feGaussianBlur stdDeviation="60"></feGaussianBlur>
+</filter>
+</defs>
+
+<!-- gradient background -->
+<rect width="512" height="512" fill="url(#bg)"></rect>
+
+<!-- blue glow blobs -->
+<circle cx="170" cy="170" r="210" fill="url(#g1)" filter="url(#blur)"></circle>
+<circle cx="380" cy="360" r="230" fill="url(#g2)" filter="url(#blur)"></circle>
+
+<!-- thicker waveform V -->
+<g fill="white">
+
+<rect x="94" y="120" width="28" height="280"></rect>
+<rect x="144" y="187" width="28" height="213"></rect>
+<rect x="194" y="253" width="28" height="147"></rect>
+<rect x="244" y="320" width="28" height="80"></rect>
+
+<rect x="294" y="253" width="28" height="147"></rect>
+<rect x="344" y="187" width="28" height="213"></rect>
+<rect x="394" y="120" width="28" height="280"></rect>
+
+</g>
+
+</svg>

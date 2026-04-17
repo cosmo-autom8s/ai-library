@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0.00 0.00 32.00 32.00">
+<g stroke-width="2.00" fill="none" stroke-linecap="butt">
+<path stroke="#338d73" vector-effect="non-scaling-stroke" d="
+  M 15.92 8.45
+  Q 7.18 16.62 15.97 24.72"
+/>
+<path stroke="#3577ab" vector-effect="non-scaling-stroke" d="
+  M 16.57 24.71
+  Q 25.30 16.63 16.60 8.46"
+/>
+</g>
+<path fill="#40b46f" d="
+  M 15.92 8.45
+  Q 7.18 16.62 15.97 24.72
+  C 11.42 27.07 5.89 25.45 3.48 20.96
+  C 1.66 17.58 2.51 12.16 2.32 8.02
+  A 0.62 0.62 0.0 0 1 2.91 7.38
+  Q 7.54 7.19 12.80 7.46
+  Q 14.59 7.55 15.92 8.45
+  Z"
+/>
+<path fill="#4389df" d="
+  M 16.57 24.71
+  Q 25.30 16.63 16.60 8.46
+  Q 18.54 7.22 20.77 7.30
+  C 26.95 7.52 30.48 12.09 30.17 18.10
+  Q 30.06 20.28 30.18 25.12
+  A 0.63 0.63 0.0 0 1 29.56 25.77
+  Q 24.95 25.88 20.51 25.78
+  Q 18.32 25.74 16.57 24.71
+  Z"
+/>
+<path fill="#266576" d="
+  M 16.60 8.46
+  Q 25.30 16.63 16.57 24.71
+  Q 16.26 24.64 15.97 24.72
+  Q 7.18 16.62 15.92 8.45
+  Q 16.25 8.52 16.60 8.46
+  Z"
+/>
+</svg>
