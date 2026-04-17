@@ -1,0 +1,26 @@
+---
+title: "n8n Lead Scoring Workflow"
+slug: n8n-lead-scoring
+description: "An automated workflow that scores inbound leads based on firmographic data and engagement signals."
+category: operations
+type: workflow
+tags: [n8n, workflow-automation, sales]
+featured: false
+publishedAt: 2026-04-16
+sourceUrl: ""
+---
+
+## What it does
+
+This n8n workflow triggers on new form submissions, enriches the lead with firmographic data, scores them against your ICP criteria, and routes high-scoring leads directly to your calendar booking link.
+
+## How it works
+
+1. **Trigger:** Webhook receives form submission
+2. **Enrich:** Pulls company data from Clearbit or Apollo
+3. **Score:** Assigns points based on company size, industry, role title
+4. **Route:** High scores go to a calendar link. Low scores go to a nurture sequence.
+
+## Why it works
+
+Manual lead qualification wastes SDR time on leads that were never going to close. This workflow handles the first pass automatically, so your team only talks to qualified prospects.

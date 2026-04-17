@@ -1,0 +1,33 @@
+---
+title: "Sales Outreach Email Generator"
+slug: sales-outreach-prompt
+description: "A Claude prompt that generates personalized cold outreach emails based on prospect LinkedIn data."
+category: sales
+type: prompt
+tags: [claude, prompt-engineering, sales]
+featured: true
+publishedAt: 2026-04-16
+sourceUrl: ""
+---
+
+## What it does
+
+This prompt takes a prospect's LinkedIn profile URL and generates a personalized cold outreach email that references their specific role, recent activity, and company context.
+
+## The prompt
+
+```text
+You are a sales development representative. Given the following LinkedIn profile information about a prospect, write a personalized cold outreach email.
+
+Profile: {profile_data}
+
+Rules:
+- Reference something specific from their profile
+- Keep it under 150 words
+- End with a clear, low-commitment CTA
+- No generic flattery
+```
+
+## Why it works
+
+Most cold emails fail because they are generic. This prompt forces specificity by requiring profile data as input, making every email feel hand-written.
