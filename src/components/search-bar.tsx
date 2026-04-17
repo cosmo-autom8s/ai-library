@@ -36,7 +36,7 @@ export function SearchBar({ query, onChange }: SearchBarProps) {
           value={query}
           onChange={(event) => onChange(event.target.value)}
           placeholder="Search..."
-          className="h-16 w-full rounded-2xl border border-card-border bg-[#171922] px-6 pr-28 font-body text-xl font-bold text-heading outline-none transition-colors placeholder:text-helper focus:border-border"
+          className="h-16 w-full rounded-2xl border border-card-border bg-card px-6 pr-28 font-body text-xl font-bold text-heading outline-none transition-colors placeholder:text-helper focus:border-action"
         />
         <kbd className="pointer-events-none absolute right-20 rounded-full bg-card-surface px-3 py-1 text-sm font-black text-body">
           Cmd K

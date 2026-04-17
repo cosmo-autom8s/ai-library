@@ -42,10 +42,10 @@ export const ENTRY_TYPES = [
 ] as const;
 
 export const TYPE_COLORS: Record<string, string> = {
-  prompt: "bg-sky-500/20 text-sky-200",
-  agent: "bg-indigo-500/20 text-indigo-200",
-  workflow: "bg-emerald-500/20 text-emerald-200",
-  tool: "bg-orange-500/20 text-orange-200",
-  resource: "bg-cyan-500/20 text-cyan-200",
-  post: "bg-rose-500/20 text-rose-200",
+  prompt: "bg-action/15 text-action",
+  agent: "bg-[#60a5fa]/15 text-[#93c5fd]",
+  workflow: "bg-[#2dd4bf]/15 text-[#8ceee3]",
+  tool: "bg-[#f59e0b]/15 text-[#fbbf24]",
+  resource: "bg-white/10 text-[#cbd5e1]",
+  post: "bg-[#a78bfa]/15 text-[#c4b5fd]",
 };

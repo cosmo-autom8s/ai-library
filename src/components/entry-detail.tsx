@@ -37,7 +37,7 @@ export function EntryDetail({ entry }: EntryDetailProps) {
             {entry.type}
           </span>
           {entry.featured ? (
-            <span className="rounded-full bg-featured px-3 py-1 text-xs font-black text-white">
+            <span className="rounded-full bg-featured px-3 py-1 text-xs font-black text-background">
               Featured
             </span>
           ) : null}

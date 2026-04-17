@@ -27,7 +27,7 @@ export function EntryCard({ entry }: EntryCardProps) {
               {entry.title}
             </h3>
             {entry.featured ? (
-              <span className="rounded-full bg-featured px-2.5 py-0.5 text-xs font-black text-white">
+              <span className="rounded-full bg-featured px-2.5 py-0.5 text-xs font-black text-background">
                 Featured
               </span>
             ) : null}
