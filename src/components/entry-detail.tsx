@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { ExternalLink, Sparkles } from "lucide-react";
 
+import { Breadcrumb } from "@/components/breadcrumb";
 import { TagPills } from "@/components/tag-pills";
 import { CATEGORIES, TYPE_COLORS } from "@/lib/constants";
 import { formatDate, type Entry } from "@/lib/entries";
@@ -15,17 +15,16 @@ export function EntryDetail({ entry }: EntryDetailProps) {
 
   return (
     <article className="mx-auto max-w-4xl px-4 py-10">
-      <nav className="mb-8 text-sm font-bold text-helper">
-        <Link href="/" className="hover:text-heading">
-          Home
-        </Link>
-        <span className="mx-2">/</span>
-        <Link href={`/category/${entry.category}`} className="hover:text-heading">
-          {category?.label ?? entry.category}
-        </Link>
-        <span className="mx-2">/</span>
-        <span className="text-body">{entry.title}</span>
-      </nav>
+      <Breadcrumb
+        items={[
+          { label: "Home", href: "/" },
+          {
+            label: category?.label ?? entry.category,
+            href: `/category/${entry.category}`,
+          },
+          { label: entry.title },
+        ]}
+      />
 
       <header className="rounded-3xl border border-card-border bg-card-surface p-6 shadow-xl shadow-black/15 sm:p-8">
         <div className="mb-5 flex flex-wrap items-center gap-2">
