@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+import { Sidebar } from "@/components/sidebar";
+import { TopNav } from "@/components/top-nav";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,7 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark h-full">
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <TopNav />
+        <Sidebar />
+        <main className="min-h-screen pt-16 lg:pl-16">{children}</main>
+      </body>
     </html>
   );
 }
