@@ -239,6 +239,8 @@ Start loose, consolidate in Week 4. Examples: `claude`, `chatgpt`, `n8n`, `make`
 
 ### Colors (dark-only v1, light-mode ready architecture)
 
+Canonical brand reference: [`docs/BRANDING.md`](../../BRANDING.md). The table below mirrors that guide for implementation context.
+
 | Token | Value | Usage |
 |---|---|---|
 | Background | `#0b0f1a` | Main page background |
@@ -252,7 +254,7 @@ Start loose, consolidate in Week 4. Examples: `claude`, `chatgpt`, `n8n`, `make`
 | Blue hover | `#60a5fa` | Hover state for blue elements |
 | Amber accent | `#f59e0b` | Featured badges, special highlights (sparingly) |
 
-**Rule:** All tokens defined globally in Tailwind config. One place to change everything.
+**Rule:** All tokens are defined globally in `src/app/globals.css`. Use `docs/BRANDING.md` as the human-readable source of truth and `globals.css` as the implementation source.
 
 ### Typography
 

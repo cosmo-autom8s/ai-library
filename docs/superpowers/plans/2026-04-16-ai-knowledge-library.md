@@ -10,6 +10,8 @@
 
 **Design Reference:** theresanaiforthat.com — screenshots and saved HTML in `docs/design-references/`
 
+**Current status:** Implemented and ready as the `0.1.0` publishing candidate. Use `README.md` for the release overview and `docs/BRANDING.md` as the canonical brand reference.
+
 ---
 
 ## File Structure
@@ -63,7 +65,8 @@ ai-knowledge-library/
 ├── velite.config.ts                # Velite schema + content config
 ├── vercel.ts                       # Vercel project config
 ├── next.config.ts                  # Next.js config (Velite plugin)
-├── tailwind.config.ts              # Design tokens: colors, fonts, spacing
+├── src/app/globals.css             # Tailwind v4 theme tokens, fonts, base styles
+├── docs/BRANDING.md                # Canonical Autom8Lab brand reference
 ├── tsconfig.json
 ├── package.json
 └── .gitignore
@@ -134,9 +137,9 @@ git commit -m "feat: scaffold Next.js 16 + Tailwind v4 + shadcn/ui"
 
 **Files:**
 - Create: `public/fonts/Satoshi-Variable.woff2`, `public/fonts/CabinetGrotesk-Variable.woff2`
-- Modify: `tailwind.config.ts`
 - Modify: `src/app/globals.css`
 - Modify: `src/app/layout.tsx`
+- Create/maintain: `docs/BRANDING.md`
 
 - [ ] **Step 1: Download and add self-hosted fonts**
 
@@ -389,12 +392,12 @@ export const ENTRY_TYPES = [
 ] as const;
 
 export const TYPE_COLORS: Record<string, string> = {
-  prompt: "bg-blue-500/20 text-blue-400",
-  agent: "bg-purple-500/20 text-purple-400",
-  workflow: "bg-green-500/20 text-green-400",
-  tool: "bg-orange-500/20 text-orange-400",
-  resource: "bg-cyan-500/20 text-cyan-400",
-  post: "bg-pink-500/20 text-pink-400",
+  prompt: "bg-action/15 text-action",
+  agent: "bg-[#60a5fa]/15 text-[#93c5fd]",
+  workflow: "bg-[#2dd4bf]/15 text-[#8ceee3]",
+  tool: "bg-[#f59e0b]/15 text-[#fbbf24]",
+  resource: "bg-white/10 text-[#cbd5e1]",
+  post: "bg-[#a78bfa]/15 text-[#c4b5fd]",
 };
 ```
 
@@ -2348,7 +2351,7 @@ git commit -m "fix: use shared Breadcrumb in entry detail, final verification pa
 | Task | What it builds | Key files |
 |------|---------------|-----------|
 | 1 | Next.js + Tailwind + shadcn scaffold | `package.json`, `src/app/` |
-| 2 | Design tokens, fonts, global styles | `globals.css`, `tailwind.config.ts`, `public/fonts/` |
+| 2 | Design tokens, fonts, global styles | `src/app/globals.css`, `docs/BRANDING.md`, `public/fonts/` |
 | 3 | Velite pipeline + schema + 3 dummy entries | `velite.config.ts`, `content/entries/`, `src/lib/constants.ts` |
 | 4 | Entry helper functions | `src/lib/entries.ts` |
 | 5 | Layout shell — TopNav + Sidebar | `src/components/top-nav.tsx`, `src/components/sidebar.tsx` |

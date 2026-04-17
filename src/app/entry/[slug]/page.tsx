@@ -50,6 +50,8 @@ export default async function EntryPage({ params }: EntryPageProps) {
 
       <div className="mx-auto max-w-4xl px-4">
         <div className="rounded-3xl border border-card-border bg-card-surface p-6 shadow-xl shadow-black/15 sm:p-8">
+          {/* Velite returns compiled MDX code per entry; rendering it here is intentional. */}
+          {/* eslint-disable-next-line react-hooks/static-components */}
           <MDXContent components={mdxComponents} />
         </div>
       </div>
