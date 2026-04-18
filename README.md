@@ -1,6 +1,6 @@
 # AI Knowledge Library
 
-Version `0.1.1`
+Version `0.1.2`
 
 Cosmo's curated library of AI Knowledge — prompts, agents, skills, workflows, tools, curated resources, and lessons learned — organized so that both him and anyone else can actually find and use them.
 
@@ -10,7 +10,7 @@ Built by Cosmin 'Cosmo' Lungu ([Autom8Lab](https://autom8lab.com)) as the BUILD 
 
 ## Status
 
-`0.1.1` is ready for publishing as a static Vercel deployment candidate.
+`0.1.2` is ready for publishing as a static Vercel deployment candidate.
 
 Implemented:
 - Next.js 16 App Router project created with `create-next-app`
