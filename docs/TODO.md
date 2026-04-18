@@ -10,7 +10,8 @@ Rolling list of tasks, improvements, and ideas for the AI Knowledge Library.
 
 ## Backlog
 
-_(Add ideas and improvements here as they come up)_
+- [ ] **Entry card image previews** — Add a `bannerImage` field to the entry schema in `velite.config.ts` and render it in the `EntryCard` component on the homepage feed. Currently images only show inline in the entry detail page body, not in the card grid. Reference: TAAFT shows image/video previews in scrollable cards.
+- [ ] **Banner image component** — Replace inline `![](...)` markdown images with a proper banner component in `EntryDetail` that reads from the schema field, with consistent sizing and responsive behavior.
 
 ## Done
 
