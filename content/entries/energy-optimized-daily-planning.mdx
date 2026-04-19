@@ -1,0 +1,198 @@
+---
+title: "Energy-Optimized Daily Planning Prompt"
+slug: energy-optimized-daily-planning
+description: "A prompt framework that builds your daily plan around energy levels — matching deep work to peak focus, admin to low-energy windows, with an 80% capacity buffer to prevent overcommitting."
+category: productivity
+type: prompt
+tags: [claude-code, ai-executive-assistant, prompt-engineering, energy-management, task-management]
+featured: false
+publishedAt: 2026-04-19
+sourceUrl: "https://github.com/cosmo-autom8s/ai-executive-assistant"
+---
+
+## What it does
+
+Most daily planning treats every hour the same. You write a to-do list, maybe order it by priority, and hope for the best. By 2pm you've done three things that weren't on the list and the important stuff is still sitting there.
+
+This prompt framework takes a different approach. It pulls your real data (calendar, tasks, context from yesterday), then builds a plan that accounts for three things most people ignore: **task size**, **energy windows**, and **realistic capacity**.
+
+The result is a daily plan where your hardest work lands when you're sharpest, admin fills your low-energy slots, and you're not planning 10 hours of work into 6 available hours.
+
+This is the core framework behind the [AI Executive Assistant](/entry/ai-executive-assistant)'s `/ea-morning-brief` command, extracted here as a standalone pattern you can adapt for any planning setup.
+
+## The framework
+
+### Step 1: Gather your data
+
+Before planning, pull everything that affects your day:
+
+- **Calendar** — meetings, calls, blocked time. Calculate how many free hours you actually have.
+- **Tasks** — everything that's due, in progress, overdue, or urgent.
+- **Yesterday's context** — what happened yesterday? Were you drained or energized? Did you finish what you planned? This adjusts today's intensity.
+- **Weekly goals** — what are you supposed to be moving forward this week?
+- **Waiting-on items** — anything you're expecting from someone else that's due today?
+
+Most people skip the last three. That's why their plans feel disconnected from reality.
+
+### Step 2: Split tasks by size
+
+Not all tasks compete for the same slots. Split them into two buckets:
+
+**Quick Wins (S tasks — under 30 min):** Follow-ups, replies, approvals, small admin. These don't belong in your Top 3. They go in your low-energy or between-meetings slots. No limit on count — just batch them.
+
+**Real work (M and L tasks):** These are your Top 3 candidates.
+- **M = 30 min to 2 hours** — drafts, research, calls, meeting prep
+- **L = 2+ hours** — deep work, strategy, presentations, architecture
+
+The split matters because most people mix S tasks in with M/L tasks and end up "busy" all day without moving anything meaningful.
+
+### Step 3: Score your Top 3
+
+From your M and L tasks, pick three using **Impact × Urgency**:
+
+- **Impact:** Does this move a monthly goal? Meet a deadline? Unblock other work or other people?
+- **Urgency:** Is it overdue? Due today? Has a hard deadline this week?
+
+One of the three should be the single most important thing for the day. The task that, if everything else falls apart, you'd still want to have done.
+
+### Step 4: Check capacity
+
+This is where most plans fail. People plan as if every free hour is productive.
+
+```
+Available hours = Free hours after meetings
+Planned work = Sum of task sizes (S=0.5h, M=1.5h, L=3h)
+Max planned = Available hours × 0.8
+```
+
+**The 80% rule:** Only plan for 80% of your available time. The other 20% is for interruptions, context switching, bathroom breaks, and the meeting that runs long. If you have 6 free hours, plan 4.8 hours of tasks.
+
+If your planned work exceeds the max, cut something. Be specific about what moves and where it goes — "Task X is Medium and not urgent, I'd move it to Thursday."
+
+### Step 5: Match tasks to energy windows
+
+This is the part that changes everything. Everyone has energy patterns — times when they're sharp and times when they're running on fumes. The plan should respect that.
+
+```
+Peak focus time    → Your #1 priority (L task, deep work)
+Creative window    → Strategic or collaborative work (M tasks)
+Low-energy / admin → Quick Wins, email, follow-ups (S tasks)
+```
+
+**Never schedule deep work in a low-energy window.** If your brain is done by 3pm, don't put your hardest task there just because it's "available time." You'll stare at it for an hour, feel bad, and move it to tomorrow.
+
+If you don't know your energy windows yet, track them for a week. Note when you feel sharpest, when you hit a wall, and when you get a second wind. Most people have a clear pattern within 3 days.
+
+### Step 6: Bundle related work
+
+Group tasks from the same project or client into adjacent time slots. Context switching is expensive — every time you jump between unrelated tasks, you lose 10-20 minutes getting your head back into the new context.
+
+If you have three tasks for the same client, do them back-to-back instead of scattered across the day.
+
+## The output
+
+Here's what a finished plan looks like:
+
+```
+Your Top 3:
+1. [Task name] (L) — supports [goal] — [why today]
+2. [Task name] (M) — [context] — [why today]
+3. [Task name] (M) — [context]
+
+Quick Wins (knock these out during admin time):
+- [Task] (S)
+- [Task] (S)
+- [Task] (S)
+
+Calendar:
+- 9:00 — Team standup
+- 14:00 — Client call
+- Available deep work: ~4.5h
+
+Energy plan:
+- 7:00–9:00 (peak): Top 3 #1
+- 9:30–11:30 (focus): Top 3 #2 and #3
+- 14:30–15:30 (post-meeting): Quick Wins
+- 15:30–16:00 (low): Email and follow-ups
+
+Heads up:
+- Waiting on Alex for the proposal — follow up if not received by noon
+- Tomorrow is meeting-heavy, so anything that needs deep focus should happen today
+```
+
+## The self-check
+
+Before committing to the plan, verify:
+
+- Does the total task load fit within 80% of available hours?
+- Is the hardest task matched to your peak energy window?
+- Did you check what happened yesterday and adjust intensity?
+- Are you recommending priorities, not just listing tasks?
+- Are related tasks bundled together?
+
+## The prompt
+
+Here's the core prompt you can adapt:
+
+```text
+You are a daily planning assistant. Given the following inputs,
+build an energy-optimized daily plan.
+
+Calendar: {today's meetings and events}
+Tasks: {all active tasks with due dates and status}
+Yesterday's context: {what happened yesterday — energy, progress, blockers}
+Weekly goals: {what you're trying to accomplish this week}
+Waiting-on: {items you're expecting from others}
+Energy windows: {your peak, creative, and low-energy time blocks}
+
+Steps:
+1. Calculate available hours after meetings
+2. Split tasks by size: S (<30min) → Quick Wins, M (30min-2h) and L (2h+) → Top 3 candidates
+3. Score M/L tasks by Impact × Urgency. Pick the Top 3. One must be the single most important task.
+4. Check capacity: total planned hours must not exceed 80% of available hours. If over, suggest what to move and where.
+5. Match tasks to energy windows: hardest work → peak focus, creative work → creative window, admin and Quick Wins → low-energy time
+6. Bundle related tasks (same project/client) into adjacent slots
+
+Output format:
+
+Top 3 (M/L tasks only):
+1. [Task] (size) — supports [goal] — [why today]
+2. [Task] (size) — [context]
+3. [Task] (size) — [context]
+
+Quick Wins (S tasks, for admin time or between meetings):
+- [Task] (S)
+
+Calendar:
+- [Time] — [Event]
+- Available deep work: ~Xh
+
+Energy plan:
+- [Peak time]: [Priority task]
+- [Creative time]: [Creative/deep task]
+- [Admin time]: Quick Wins + follow-ups
+
+Heads up:
+- [Overdue items, waiting-on follow-ups, capacity warnings]
+
+Be opinionated. Recommend a plan, don't just list options.
+If yesterday was draining, suggest a lighter morning.
+If a task has been pushed three days in a row, flag it.
+```
+
+## Why this works
+
+Three reasons:
+
+**Energy matching beats willpower.** You stop fighting your biology and start working with it. The same task that feels impossible at 4pm takes 45 minutes at 8am.
+
+**The 80% buffer prevents the overcommit spiral.** Overcommit → don't finish → guilt → overcommit harder to "catch up" → repeat. Planning less lets you actually finish what you planned, which builds momentum instead of debt.
+
+**Separating Quick Wins from real work stops fake productivity.** Checking off ten small tasks feels good but moves nothing. Putting them in their own bucket lets you see whether your day actually advanced your goals or just stayed busy.
+
+## Related entries
+
+- [AI Executive Assistant](/entry/ai-executive-assistant) — where this prompt lives as the `/ea-morning-brief` command
+- [The 80% Rule — Task Sizing and Capacity Planning](/entry/task-sizing-capacity-planning) — deeper dive on the sizing framework
+- [Weekly Retrospective with Velocity Tracking](/entry/weekly-retro-velocity-tracking) — how to measure whether your planning is actually working
+- [Daily Productivity Cycle](/entry/daily-productivity-cycle) — how this morning plan connects to the rest of the day

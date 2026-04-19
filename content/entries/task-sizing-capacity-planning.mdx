@@ -1,0 +1,147 @@
+---
+title: "The 80% Rule — Task Sizing and Capacity Planning"
+slug: task-sizing-capacity-planning
+description: "A simple framework for sizing tasks, setting daily capacity, and applying the 80% buffer rule so you stop overcommitting and start finishing what you planned."
+category: productivity
+type: prompt
+tags: [claude-code, ai-executive-assistant, prompt-engineering, task-management, capacity-planning]
+featured: false
+publishedAt: 2026-04-19
+sourceUrl: "https://github.com/cosmo-autom8s/ai-executive-assistant"
+---
+
+## The problem
+
+You plan your day. Eight tasks. Feels reasonable. By 5pm you've done four, maybe five. The rest roll to tomorrow. Tomorrow you plan eight again — the five from today's leftovers plus three new ones. By Friday you're carrying a growing backlog and feeling like you can't keep up.
+
+The problem isn't execution. It's planning. You're consistently planning more work than a human can do in a day, and then blaming yourself for not being superhuman.
+
+This framework fixes that by making realistic planning the default.
+
+## The sizing framework
+
+Every task gets a size. Not a time estimate — a t-shirt size. Three options:
+
+| Size | Time | Examples |
+|------|------|----------|
+| **S** | Under 30 min | Replies, approvals, follow-ups, quick admin, scheduling |
+| **M** | 30 min – 2 hours | Drafts, research, calls, meeting prep, reviews |
+| **L** | 2+ hours | Deep work, strategy docs, presentations, architecture, creative work |
+
+Why t-shirt sizes instead of hour estimates? Because people are terrible at estimating hours but decent at "is this a quick thing, a medium thing, or a big thing?" You don't need precision. You need the right bucket.
+
+## Default daily capacity
+
+A realistic productive day for most people:
+
+```
+1 × L  (3h)
+2 × M  (3h)
+2 × S  (1h)
+─────────────
+Total: ~5-6 hours of actual work
+```
+
+That's it. That's a full day. If you think you can do more, you're probably counting hours you won't actually use for focused work — the meeting that runs long, the Slack thread that pulls you in, the 20 minutes you spend figuring out what to work on next.
+
+This default assumes ~8 hours available with ~2-3 hours lost to meetings, transitions, and overhead. Adjust based on your actual meeting load.
+
+## The 80% buffer rule
+
+Even within your available hours, only plan for 80%.
+
+```
+Available hours = Total hours − meetings − lunch − fixed commitments
+Planned work   = Sum of task sizes (S=0.5h, M=1.5h, L=3h)
+Maximum plan   = Available hours × 0.8
+```
+
+If you have 6 free hours after meetings, plan 4.8 hours of tasks. Not 6. Not 5.5. **4.8.**
+
+The other 20% is for:
+- The meeting that runs 15 minutes over
+- The "quick question" from a colleague
+- The context switching tax between tasks
+- Bathroom breaks, coffee, thinking time
+- The task that takes longer than expected (they all do)
+
+This isn't lazy. It's honest. And it's the difference between ending the day having finished your plan vs. ending it with a growing guilt pile.
+
+## Top 3 vs. Quick Wins
+
+Not all tasks compete for the same attention. Split them into two buckets:
+
+**Top 3 (M and L tasks only):** These are the tasks that actually move the needle. They require focused time, they connect to your goals, and they're the ones you'll be glad you did at the end of the week. Pick three. One should be the single most important thing for the day.
+
+**Quick Wins (S tasks):** Follow-ups, replies, approvals, small admin. These don't compete for Top 3 slots. They go in your low-energy time — between meetings, after lunch, end of day. Batch them. No limit on count as long as they fit in your admin windows.
+
+The split matters because mixing S tasks with M/L tasks creates an illusion of productivity. You check off eight small things, feel accomplished, and realize you didn't touch the presentation that's due tomorrow.
+
+## Picking the Top 3: Impact × Urgency
+
+When you have more M/L tasks than slots, score them:
+
+**Impact:**
+- Does this move a monthly goal or key project forward?
+- Does finishing this unblock other work or other people?
+- Will this matter in a week, or is it busywork?
+
+**Urgency:**
+- Is it overdue?
+- Is it due today?
+- Does it have a hard deadline this week?
+- Will the cost of delay increase if I push it one more day?
+
+High impact + high urgency = your #1 task. High impact + low urgency = schedule it before it becomes urgent. Low impact + high urgency = delegate it or question whether it's actually urgent. Low impact + low urgency = backlog it or delete it.
+
+## The prompt
+
+```text
+You are a capacity planning assistant. Given the following inputs,
+check whether today's plan is realistic and suggest adjustments.
+
+Tasks for today: {list of tasks with sizes if known}
+Calendar: {today's meetings and fixed commitments}
+Energy windows: {peak focus, creative, and low-energy time blocks}
+
+Steps:
+1. Size any unsized tasks: S (<30min), M (30min-2h), L (2h+)
+2. Calculate available hours after meetings and fixed commitments
+3. Calculate planned load: S=0.5h, M=1.5h, L=3h — sum all tasks
+4. Apply 80% buffer: max planned = available hours × 0.8
+5. If over capacity:
+   - Identify which tasks to move. Be specific: "[Task] is Medium
+     and not urgent — move it to Thursday"
+   - Keep the highest Impact × Urgency tasks
+   - Never cut all S tasks — keep a few for admin time
+6. Split into Top 3 (M/L only, scored by Impact × Urgency) and
+   Quick Wins (S tasks for low-energy slots)
+7. Flag if any task has been rolling over for 3+ days
+
+Output:
+- Top 3 with reasoning
+- Quick Wins list
+- Capacity check: planned hours vs. available (with 80% buffer)
+- Adjustments made (what was moved and where)
+- Warnings (overdue tasks, rolling tasks, overloaded days)
+
+If the plan fits within 80% of available hours, say so.
+Don't inflate the plan just because there's room — finishing
+early is better than finishing behind.
+```
+
+## Why this works
+
+**The 80% rule breaks the overcommit spiral.** Overcommit → don't finish → guilt → overcommit harder to "catch up" → repeat. Planning less feels wrong at first. Then you start finishing what you planned, and the momentum compounds. Two completed tasks feel better than five half-done ones.
+
+**Sizing prevents hour-estimation paralysis.** "How long will this take?" is a question you'll agonize over and get wrong. "Is this small, medium, or big?" takes two seconds and is accurate enough. Perfect estimates don't matter. Being in the right bucket does.
+
+**Separating Top 3 from Quick Wins stops fake productivity.** When everything is on one list, you gravitate toward the small, easy tasks because checking things off feels good. Two separate buckets make it visible: did you do important work today, or did you just stay busy?
+
+**The daily capacity default gives you a number.** Without a target, "how much can I do?" is an open question you'll always answer too ambitiously. 1L + 2M + 2S is a concrete anchor. You can adjust it as you learn your actual throughput (the [weekly retro](/entry/weekly-retro-velocity-tracking) helps with this), but starting with a default beats guessing every morning.
+
+## Related entries
+
+- [AI Executive Assistant](/entry/ai-executive-assistant) — where this framework is embedded in the `/ea-morning-brief` command
+- [Energy-Optimized Daily Planning Prompt](/entry/energy-optimized-daily-planning) — the full planning framework that uses this sizing and capacity logic
+- [Weekly Retrospective with Velocity Tracking](/entry/weekly-retro-velocity-tracking) — how to measure whether your capacity planning is actually working (the overcommit score validates it)

@@ -1,0 +1,138 @@
+---
+title: "Pre-Meeting Briefing Prompt"
+slug: pre-meeting-briefing-prompt
+description: "A structured prompt that generates a pre-meeting brief — who you're meeting, why it matters, what's open, and the questions you should ask."
+category: operations
+type: prompt
+tags: [claude-code, ai-executive-assistant, prompt-engineering, meeting-prep]
+featured: false
+publishedAt: 2026-04-19
+sourceUrl: "https://github.com/cosmo-autom8s/ai-executive-assistant"
+---
+
+## What it does
+
+You're five minutes from a call. You know the person's name and vaguely what it's about, but you can't remember what you discussed last time, what you promised to follow up on, or what you actually need from this meeting.
+
+This prompt generates a one-page brief that answers all of that. It pulls context from your calendar, task manager, notes, and previous interactions, then outputs a structured brief you can scan in 30 seconds before walking in.
+
+This is the framework behind the [AI Executive Assistant](/entry/ai-executive-assistant)'s `/ea-meeting-prep` command, but the structure works with any AI tool that has access to your calendar and notes.
+
+## The quick-scan header
+
+Every brief starts with three lines. If you only have 10 seconds, these are enough:
+
+```
+WHO:          Sarah Chen — CTO at Meridian, your main technical contact
+WHY IT MATTERS: Final sign-off on the integration spec before dev starts Monday
+TOP QUESTION:  Are they committed to the April timeline, or is there flexibility?
+```
+
+**WHO** isn't just a name — it's name + role + your relationship to them. "Sarah Chen" tells you nothing. "Sarah Chen — CTO at Meridian, your main technical contact" tells you how to show up.
+
+**WHY IT MATTERS** is the stakes in one sentence. What happens if this meeting goes well? What breaks if it doesn't?
+
+**TOP QUESTION** forces you to identify the single most important thing to walk out with. If the meeting goes sideways and you only get to ask one thing, this is it.
+
+## The full brief
+
+After the header, the full brief follows this structure:
+
+### Meeting details
+
+The basics — who, when, where (or meeting link). List all attendees with their roles, not just names.
+
+### Why this meeting matters
+
+One to two sentences expanding on the header. The context that makes this meeting important *right now* — not a generic description of the relationship, but what's specifically at stake today.
+
+### 3 priorities for this meeting
+
+What you need to accomplish, in order. Not agenda items — outcomes. "Get alignment on timeline" is a priority. "Discuss timeline" is an agenda item. The difference matters because priorities have a success condition you can check afterwards.
+
+### Context from previous interactions
+
+This is where the brief earns its keep:
+
+- **Last met:** When, and a brief summary of what was discussed
+- **Key decisions made:** What was agreed on in previous meetings
+- **Commitments given:** What was promised, by whom, and whether it's been delivered
+
+Most people walk into meetings without this context and end up re-litigating things that were already decided, or worse, forgetting commitments they made.
+
+### Open items
+
+Active tasks or projects related to this person or their company. If you have three open tasks for their account, you should know that going in. Also surface any waiting-on items — "You've been waiting on Sarah for the API spec since April 3rd" changes how you approach the conversation.
+
+### Questions to ask
+
+Generated from the open items, previous commitments, and meeting context. These aren't generic — they're specific follow-ups: "The API spec was due April 10th — is there a blocker?" is useful. "How's the project going?" is not.
+
+### Watch-fors
+
+Things to be careful about. Decision points where you might want to say "let me think on that and get back to you" instead of committing on the spot. Sensitivities based on previous interactions. Anything that could derail the meeting if you're not prepared for it.
+
+### Desired outcome
+
+What does a successful meeting look like? Write this before the meeting, not after. It's the single most clarifying question in the whole brief — most people go into meetings without knowing what "done" looks like, so they talk for an hour and leave with nothing concrete.
+
+### Next step to propose
+
+A specific, concrete next step to close the meeting with. Not "let's stay in touch" — something like "I'll send the revised spec by Thursday, and we'll reconvene next Tuesday to review." Meetings without a clear next step generate more meetings.
+
+## How to feed it context
+
+The brief gets dramatically better with real data. Here's what each source unlocks:
+
+| Data source | What it adds to the brief |
+|-------------|--------------------------|
+| Calendar | Meeting time, attendees, agenda, location |
+| Task manager | Open items related to attendees, overdue deliverables |
+| CRM or notes | Previous interaction history, decisions, commitments |
+| Email | Recent threads with attendees, outstanding replies |
+| Waiting-on list | Follow-ups that are due, things you're blocked on |
+
+Without any data sources, you can still use the structure — just fill in what you know manually. The format itself is the value.
+
+## The prompt
+
+Here's the core prompt you can adapt:
+
+```text
+You are preparing a pre-meeting brief. Given the following meeting
+and context, generate a structured brief.
+
+Meeting: {meeting details — who, when, what}
+Previous interactions: {notes, emails, or CRM data about attendees}
+Open tasks: {any active tasks related to attendees or their company}
+Waiting-on items: {anything you're expecting from them}
+
+Output format:
+
+1. Quick-scan header: WHO / WHY IT MATTERS / TOP QUESTION
+2. Why this meeting matters (1-2 sentences, specific to today)
+3. 3 priorities (outcomes, not agenda items)
+4. Context from previous interactions (last met, decisions, commitments)
+5. Open items (tasks, waiting-on)
+6. Questions to ask (specific, based on open items and context)
+7. Watch-fors (decision points, sensitivities)
+8. Desired outcome (what success looks like)
+9. Next step to propose (concrete, with a date)
+
+Be specific. "Follow up on the proposal" is too vague.
+"The revised proposal was due April 10 — confirm they've reviewed
+section 3 and are aligned on pricing" is useful.
+```
+
+## Why this works
+
+**"Desired outcome" changes how you show up.** When you know what you need from the meeting, you steer the conversation instead of following it. You stop having meetings that end with "that was a good discussion" and nothing else.
+
+**Previous context prevents re-litigation.** Half of recurring meetings are spent re-establishing things that were already agreed on. A brief that surfaces past decisions means you start from where you left off, not from scratch.
+
+**Specific questions replace vague check-ins.** "How's things?" gets you a vague answer. "The spec was due last week — is there a blocker?" gets you information you can act on.
+
+## Related entries
+
+- [AI Executive Assistant](/entry/ai-executive-assistant) — where this prompt lives as the `/ea-meeting-prep` command
+- [Daily Productivity Cycle](/entry/daily-productivity-cycle) — how meeting prep fits into the daily workflow

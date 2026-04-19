@@ -1,0 +1,160 @@
+---
+title: "Weekly Retrospective with Velocity Tracking"
+slug: weekly-retro-velocity-tracking
+description: "A data-driven weekly retrospective prompt that calculates completion rate, overcommit score, and 3-week rolling trends to surface productivity patterns you can't see in the moment."
+category: data-decisions
+type: prompt
+tags: [claude-code, ai-executive-assistant, prompt-engineering, velocity-tracking, retrospective, productivity]
+featured: false
+publishedAt: 2026-04-19
+sourceUrl: "https://github.com/cosmo-autom8s/ai-executive-assistant"
+---
+
+## What it does
+
+Most weekly reviews are vibes. "This week felt busy." "I think I got a lot done." "Next week I'll be more focused." Then you repeat the same patterns because you never actually measured what happened.
+
+This prompt runs a data-driven retrospective. It counts what you planned vs. what you finished, calculates whether you're chronically overcommitting, tracks trends over multiple weeks, and surfaces specific patterns — like meeting-heavy days killing your deep work, or unplanned tasks crowding out what you actually said you'd do.
+
+It's the framework behind the [AI Executive Assistant](/entry/ai-executive-assistant)'s `/ea-weekly-retro` command. The numbers come first. The feelings come second. Both matter, but the numbers keep you honest.
+
+## The metrics
+
+### Completion rate
+
+Simple: how many tasks did you finish out of how many you planned?
+
+```
+Completion rate = Completed / Planned × 100
+```
+
+70-85% is healthy. Below 60% consistently means your plans are too ambitious. Above 90% might mean you're sandbagging — playing it safe and not challenging yourself.
+
+### Overcommit score
+
+This is the one that changes everything:
+
+```
+Overcommit score = Planned / Completed
+```
+
+If you planned 10 tasks and completed 6, your overcommit score is 1.67. That means you're planning 67% more work than you can actually do.
+
+**The threshold: 1.5.** If your overcommit score is consistently above 1.5, you're not bad at executing — you're bad at planning. The fix isn't "try harder." The fix is "plan less." This is why the [80% capacity buffer](/entry/task-sizing-capacity-planning) exists.
+
+### 3-week rolling trends
+
+One bad week is noise. Three bad weeks is a pattern. Track these over time:
+
+- 3-week average completion rate
+- 3-week average overcommit score
+- Recommended daily load (adjusted based on what you actually finish)
+
+The rolling average smooths out the week where you were sick or the week where everything clicked. It shows you your real, sustainable throughput.
+
+## Pattern detection
+
+The numbers tell you *what* happened. Pattern detection tells you *why*. Here's what to look for:
+
+**Meeting-heavy days vs. deep work output.** Did you get less done on days with 4+ hours of meetings? Almost certainly yes — but by how much? If your Tuesday had 5 hours of meetings and you completed zero M/L tasks, that's data. You might need to protect one meeting-free day per week.
+
+**Energy crashes.** If you track energy or mood (even informally in daily notes), look for patterns. Low energy on Wednesdays? What happens Tuesday night? Late nights, heavy meeting days, or specific types of work draining you?
+
+**Scope creep from unplanned tasks.** How many tasks appeared mid-week that weren't in Monday's plan? If 40% of your completed tasks were unplanned, your planning isn't the problem — your environment is. You might need better boundaries, or your plan needs a bigger buffer for interrupts.
+
+**Context switching.** Were tasks scattered across five projects, or were they bundled? Weeks with heavy context switching typically show lower completion rates even with the same available hours.
+
+**The same task rolling over.** If a task has been on your plan for three weeks and hasn't been started, it's either not important (delete it) or you're avoiding it (figure out why).
+
+## Monthly goal alignment
+
+For each of your monthly goals, ask:
+
+- How many tasks this week supported this goal?
+- Did it get real attention, or was it crowded out?
+- Is it on track, needs attention, or stalled?
+
+This is the check that prevents drift. You can have a great completion rate and still waste the week if none of what you completed actually moved your goals forward. Busy and productive are not the same thing.
+
+## The prompt
+
+```text
+You are running a weekly retrospective. Given the following data,
+analyze the week with numbers first, then surface patterns and
+recommendations.
+
+This week's plan: {tasks that were planned for this week}
+Completed tasks: {tasks that reached done status}
+Moved tasks: {tasks pushed to a later date}
+Dropped tasks: {tasks removed entirely}
+New/unplanned tasks: {tasks that appeared mid-week, not in the original plan}
+Daily notes: {any energy/mood observations from the week — optional}
+Monthly goals: {current monthly focus areas}
+Previous velocity: {completion rates and overcommit scores from past 2-3 weeks — if available}
+
+Analysis steps:
+1. Calculate: completion rate, overcommit score, moved count, dropped count, unplanned count
+2. Check sprint goal: was the week's main objective hit?
+3. Check monthly goal alignment: for each goal, how many tasks supported it?
+4. Detect patterns:
+   - Meeting-heavy days vs. output
+   - Energy crashes (what preceded them?)
+   - Scope creep (what % of completed work was unplanned?)
+   - Recurring rolled-over tasks
+   - Context switching vs. bundling
+5. Compare to previous weeks: is completion improving, declining, or flat?
+6. Generate specific recommendations for next week
+
+Output format:
+
+The numbers:
+- Planned: X | Completed: Y | Moved: Z | Dropped: W | New: N
+- Completion rate: X% | Overcommit score: X.X
+- [One sentence interpreting the numbers]
+
+Sprint goal check:
+- Goal: "[sprint goal]"
+- Verdict: Hit / Partially / Missed — [why]
+
+Monthly goal alignment:
+1. [Goal] — X tasks completed → on track / needs attention / stalled
+2. [Goal] — status
+3. [Goal] — status
+
+What went well:
+- [Specific win with data]
+- [Pattern that worked]
+
+What didn't:
+- [Specific miss with data]
+- [Pattern that's not working]
+
+Patterns:
+- [Pattern with supporting data]
+- [Energy/mood pattern if data available]
+
+Recommendations for next week:
+- [Specific, actionable — not "be more focused" but "block Tuesday morning for deep work since that's your highest-output slot"]
+- [Capacity adjustment if overcommit score > 1.5]
+
+Be honest, not encouraging. "You completed 4 of 10 planned tasks"
+is more useful than "great effort this week!" End by asking what
+felt good and what drained them — the qualitative layer matters too.
+```
+
+## Why this works
+
+**Numbers before vibes prevents self-deception.** You can feel like you had a productive week and discover you completed 40% of what you planned. You can feel like you slacked off and discover you hit 85%. The data keeps the narrative honest.
+
+**The overcommit score reframes the problem.** Most people who don't finish their plans think they need more discipline. They usually need less ambitious plans. Seeing "you plan 1.7x more than you finish, every week" changes the conversation from "I need to try harder" to "I need to plan smarter."
+
+**Rolling trends catch slow drift.** Your completion rate dropping from 80% to 75% to 68% over three weeks isn't alarming on any single week. But the trend tells you something is changing — maybe your workload increased, maybe your energy is lower, maybe a project is expanding without you noticing. Weekly snapshots miss this. Trends catch it.
+
+**Monthly goal alignment prevents productive busywork.** You can crush your to-do list and make zero progress on what actually matters. Checking goal alignment every week ensures you're not just busy — you're busy on the right things.
+
+## Related entries
+
+- [AI Executive Assistant](/entry/ai-executive-assistant) — where this prompt lives as the `/ea-weekly-retro` command
+- [Energy-Optimized Daily Planning Prompt](/entry/energy-optimized-daily-planning) — the daily planning framework this retro evaluates
+- [The 80% Rule — Task Sizing and Capacity Planning](/entry/task-sizing-capacity-planning) — the fix when your overcommit score is too high
+- [Daily Productivity Cycle](/entry/daily-productivity-cycle) — the daily rhythm that feeds data into this retro
