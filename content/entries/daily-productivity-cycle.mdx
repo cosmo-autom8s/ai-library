@@ -1,0 +1,152 @@
+---
+title: "Daily Productivity Cycle"
+slug: daily-productivity-cycle
+description: "A four-phase daily workflow — morning planning, active work, afternoon review, and nightly cleanup — where each phase feeds into the next so you never start from zero."
+category: operations
+type: workflow
+tags: [claude-code, ai-executive-assistant, workflow-automation, task-management, productivity]
+featured: false
+publishedAt: 2026-04-20
+sourceUrl: "https://github.com/cosmo-autom8s/ai-executive-assistant"
+---
+
+## What it is
+
+A daily operating rhythm where an AI assistant handles the meta-work — planning, reviewing, organizing, tracking — so you can focus on the actual work. Four phases, each feeding into the next, creating a loop that compounds over time.
+
+This isn't about any single prompt or tool. It's the workflow pattern that ties the [AI Executive Assistant](/entry/ai-executive-assistant)'s skills together into something greater than the sum of its parts. The individual prompts are useful on their own. Chained into a daily cycle, they become a system.
+
+## Why most productivity systems break
+
+They depend on you. You have to remember to plan. You have to remember to review. You have to remember to organize your backlog. You have to remember what you said you'd do three days ago. On a good day, you do all of this. On a busy day — which is most days — you skip the planning, skip the review, and end the week unsure where the time went.
+
+This cycle offloads the remembering to the system. Each phase writes output that the next phase reads. The chain doesn't break because it doesn't rely on your memory or discipline to connect the steps.
+
+## The four phases
+
+### Phase 1: Morning Brief
+
+**When:** Start of your workday
+**Duration:** 5-10 minutes
+**Input:** Calendar, tasks, yesterday's context, weekly goals, waiting-on items
+
+This is where your day gets its shape. The morning brief doesn't just list what's on your plate — it builds an opinionated plan:
+
+- **Top 3** priorities scored by Impact × Urgency (M/L tasks only)
+- **Quick Wins** batched for your low-energy or between-meetings time
+- **Energy matching** — hardest work mapped to your peak focus hours
+- **Capacity check** — total planned work capped at 80% of available hours
+- **Heads up** — overdue items, waiting-on follow-ups, tomorrow's constraints
+
+You review it, adjust if needed, approve it. The approved plan gets saved. That's your contract with yourself for the day.
+
+See: [Energy-Optimized Daily Planning Prompt](/entry/energy-optimized-daily-planning)
+
+### Phase 2: Active work + capture
+
+**When:** Throughout the day
+**Duration:** Your whole workday
+**Input:** Whatever comes up
+
+This is where you do the actual work. The system stays out of your way but is there when you need it:
+
+- **Task capture** — new task comes up? Capture it. It gets auto-sized (S/M/L), auto-categorized against your monthly goals, and checked against today's capacity. If adding it overloads your day, the system tells you what to bump.
+- **Delegation** — handing something off? Log who's taking it, when it's due, and set a follow-up reminder. The system tracks it so you don't have to remember to check in.
+- **Meeting prep** — call in 10 minutes? Pull a brief with interaction history, open items, and questions to ask. Walk in prepared instead of winging it.
+
+The key: everything captured during the day flows into the evening and morning phases. Nothing falls through because it all gets written down in the moment.
+
+### Phase 3: Afternoon check-in
+
+**When:** Mid-to-late afternoon
+**Duration:** 5-10 minutes
+**Input:** Today's plan, current task statuses, how you're feeling
+
+The honest mirror. You pull up the plan from this morning and face what actually happened:
+
+- What got done? Mark it.
+- What didn't? Why? Be honest — was it deprioritized, was it blocked, or did you just avoid it?
+- What changed? New tasks that appeared, meetings that ate your time, priorities that shifted.
+- How are you? If you're drained, the system adjusts — suggests a lighter tomorrow, flags that you might be heading toward a burnout week.
+
+The check-in also starts planning tomorrow. Based on what's left from today plus what's scheduled, it proposes a rough shape for the next day. This becomes the draft that tonight's cleanup refines.
+
+### Phase 4: Night cleanup
+
+**When:** End of day (can run autonomously)
+**Duration:** Runs on its own
+**Input:** All tasks, calendar for tomorrow, context files
+
+This is the night shift PM. It runs without needing your input and handles the organizational work you'd never get to:
+
+- **Sizes unsized tasks** — anything captured during the day without a size gets categorized
+- **Categorizes against goals** — new tasks get tagged to monthly focus areas (or flagged as orphans)
+- **Flags overdue items** — anything past due gets surfaced for tomorrow
+- **Rebuilds the task cache** — a clean snapshot of everything active
+- **Drafts tomorrow's plan** — Top 3, Quick Wins, energy plan, heads up — all prepped and waiting
+
+**The guardrails matter.** The cleanup can organize, categorize, and suggest. It *cannot* mark tasks as done, delete anything, or send messages. It's autonomous within strict boundaries.
+
+The draft it produces sits in `today.md` marked as DRAFT. When you run your morning brief tomorrow, it reads the draft as a head start instead of starting from scratch. The loop closes.
+
+## The feedback loop
+
+This is what makes the cycle more than four separate tools:
+
+```
+Night Cleanup writes DRAFT
+       ↓
+Morning Brief reads DRAFT → builds plan faster, with continuity
+       ↓
+Active work captures new data throughout the day
+       ↓
+Check-in reviews plan vs. reality → starts tomorrow's rough shape
+       ↓
+Night Cleanup refines it → writes new DRAFT
+       ↓
+(repeat)
+```
+
+Each phase produces output that the next phase consumes. The system's context accumulates — it knows what you planned, what you actually did, what keeps rolling over, and what your patterns look like. After a week, it has enough data to say "you always overplan Wednesdays because you forget about your three standing meetings."
+
+## The weekly and monthly layers
+
+The daily cycle doesn't exist in isolation. Two slower rhythms sit on top of it:
+
+**Weekly cadence:**
+- **Monday** — weekly planning. Set 3-5 outcomes for the week, a sprint goal, and slot tasks into days based on calendar and capacity.
+- **Friday** — [weekly retro](/entry/weekly-retro-velocity-tracking). Planned vs. actual, completion rate, overcommit score, pattern detection, monthly goal alignment. The retro feeds recommendations into next Monday's plan.
+
+**Monthly direction:**
+- **Start of month** — set 3 focus areas with measurable success criteria. Everything below filters against these. Tasks that don't connect to a monthly goal get flagged as orphans.
+
+The monthly goals feed into the weekly plan. The weekly plan feeds into the daily cycle. The daily data feeds back up into the weekly retro. It's cycles all the way up.
+
+## What makes this different from a to-do app
+
+**A to-do app stores tasks. This system operates on them.** It scores priorities, checks capacity, matches energy, detects patterns, and pushes back when you're overcommitting. It has opinions about how you should spend your time.
+
+**A to-do app forgets between sessions. This system remembers.** The context files carry state forward. Tuesday's system knows what happened Monday. Friday's retro knows how the whole week went.
+
+**A to-do app is passive. This system is proactive.** It flags tasks that keep rolling over. It warns when your week is overloaded. It notices when you're avoiding something important. It doesn't just hold your list — it manages it.
+
+## Implementing this yourself
+
+You don't need the [AI Executive Assistant](/entry/ai-executive-assistant) to use this pattern. The workflow works with any AI tool that can read and write files. The key ingredients:
+
+1. **A daily plan file** that gets written each morning and reviewed each afternoon
+2. **A task cache** that stays current across sessions
+3. **A waiting-on list** for delegation tracking
+4. **A velocity file** that accumulates weekly data
+5. **A monthly goals file** that everything filters against
+
+The AI handles the analysis, scoring, and pattern detection. The files handle the memory. The daily rhythm handles the discipline.
+
+## Related entries
+
+- [AI Executive Assistant](/entry/ai-executive-assistant) — the agent that implements this full cycle
+- [Energy-Optimized Daily Planning Prompt](/entry/energy-optimized-daily-planning) — the Phase 1 prompt framework
+- [Pre-Meeting Briefing Prompt](/entry/pre-meeting-briefing-prompt) — the Phase 2 meeting prep format
+- [Weekly Retrospective with Velocity Tracking](/entry/weekly-retro-velocity-tracking) — the Friday retro that sits on top of this cycle
+- [The 80% Rule — Task Sizing and Capacity Planning](/entry/task-sizing-capacity-planning) — the capacity logic used in Phase 1
+- [Building a Stateful Agent on Claude Code](/entry/building-stateful-agent-claude-code) — the architecture that makes the feedback loop possible

@@ -1,0 +1,153 @@
+---
+title: "Building a Stateful Agent on Claude Code"
+slug: building-stateful-agent-claude-code
+description: "How to turn Claude Code into a persistent agent using the three-layer pattern — skills for capabilities, a profile for identity, and context files for memory across sessions."
+category: productivity
+type: post
+tags: [claude-code, ai-executive-assistant, agent-architecture, prompt-engineering, mcp]
+featured: true
+publishedAt: 2026-04-20
+sourceUrl: "https://github.com/cosmo-autom8s/ai-executive-assistant"
+---
+
+## The problem
+
+Claude Code is powerful out of the box. But every conversation starts fresh. It doesn't know what you were working on yesterday. It doesn't remember what you decided last week. It doesn't know your preferences, your goals, or the commitments you made. Each session is a blank slate.
+
+If you want to build something that behaves more like an agent — something that remembers, adapts, and operates across sessions — you need to add those layers yourself.
+
+This post breaks down the architecture pattern I used to build the [AI Executive Assistant](/entry/ai-executive-assistant), a 13-skill agent that manages my daily workflow, tracks my commitments, and holds me accountable across conversations. No frameworks. No databases. No vector stores. Just files, prompts, and a clear pattern.
+
+## The three-layer architecture
+
+Every stateful agent needs three things: something that defines what it can do, something that defines who it's doing it for, and something that remembers what happened before.
+
+### Layer 1: Skills (capabilities)
+
+A skill is a markdown file in `~/.claude/commands/` that becomes a slash command. That's it. Each file is a detailed prompt that handles one specific job.
+
+```
+~/.claude/commands/
+├── ea-morning-brief.md    → /ea-morning-brief
+├── ea-meeting-prep.md     → /ea-meeting-prep
+├── ea-delegate.md         → /ea-delegate
+├── ea-weekly-retro.md     → /ea-weekly-retro
+└── ... (13 skills total)
+```
+
+What makes a skill different from just a good prompt? Structure. Each skill has:
+
+- **A clear trigger** — when to use it and what inputs it expects
+- **Phased execution** — defined steps: gather data → analyze → output → write. Not "figure it out."
+- **Defined outputs** — what format the response takes and what files it reads or writes
+- **Error handling** — what to do when a tool isn't connected or data is missing
+
+A morning brief skill doesn't just say "plan my day." It says: read the calendar, read the task cache, check if the cache is stale, pull fresh data if needed, split tasks by size, score by Impact × Urgency, check capacity against 80% buffer, match to energy windows, present in this specific format, self-check against this list, then write the approved plan to this file.
+
+The specificity is the point. Vague prompts produce vague results. Structured skills produce consistent, reliable behavior.
+
+### Layer 2: Profile (identity)
+
+The profile is a single file — `~/.claude/ea-profile.md` — that tells the agent who you are. Every skill reads this file before responding.
+
+What goes in a profile:
+
+- **About you** — your role, working style, how you think. An INTJ who hates small talk needs different handling than an extrovert who thinks out loud.
+- **Communication style** — "Be blunt, no emoji, headlines first" vs. "Be encouraging, explain your reasoning." The agent matches your preferred tone.
+- **Energy windows** — when you do deep work, when you crash, when you're good for calls. This directly feeds into task scheduling.
+- **Goals** — your main objectives. The agent references these when scoring priorities and checking alignment.
+- **Operating principles** — the rules you want the agent to enforce. "Challenge my perfectionism." "Flag meetings without agendas." "If I mention three new ideas without touching my main project, call me out." These turn the agent from helpful to genuinely useful.
+- **Task sizing** — how you define S/M/L and your daily capacity.
+- **Tool configuration** — which tools are connected and how to access them.
+
+The profile is what makes the agent *yours* without fine-tuning. Two people with the same skills installed get completely different experiences based on their profiles. One person's morning brief starts at 5:30am with deep work blocks. Another's starts at 9am with a meeting-heavy schedule. Same skill, different behavior.
+
+### Layer 3: Context (memory)
+
+Context files live in `~/.claude/ea-context/` and persist between conversations. Each file serves a specific purpose:
+
+| File | What it holds |
+|------|--------------|
+| `today.md` | Today's approved plan (or tomorrow's draft from the night cleanup) |
+| `weekly-plan.md` | This week's outcomes, sprint goal, day-by-day task slots |
+| `monthly-goals.md` | 3 focus areas with success criteria |
+| `task-cache.md` | Snapshot of all active tasks with sizes, dates, statuses |
+| `velocity.md` | Daily and weekly completion data, rolling trends |
+| `waiting-on.md` | Delegation follow-ups with reminder dates |
+| `decisions.md` | Key decisions made (for consistency and reference) |
+| `delegation-log.md` | Full history of delegated tasks |
+
+Each skill knows which context files to read and which to write. The morning brief reads `today.md` (for last night's draft), `weekly-plan.md`, `monthly-goals.md`, and `waiting-on.md`. After you approve the plan, it writes to `today.md` and updates `task-cache.md`.
+
+This creates a feedback loop: skills produce data that other skills consume. The night cleanup writes a draft. The morning brief reads it. The check-in writes velocity data. The weekly retro analyzes it. Nothing is wasted.
+
+**Why files instead of a database?** Because files are readable, editable, debuggable. You can open `today.md` in any text editor and see exactly what the agent thinks your plan is. You can fix a wrong entry by hand. You can version control your context with git. There's no abstraction layer hiding what's happening.
+
+## Designing the autonomous boundary
+
+Some skills run with your active involvement (morning brief, meeting prep). Others run autonomously (night cleanup). The autonomous ones need explicit guardrails.
+
+The night cleanup skill has a clear boundary:
+
+**Can do without permission:**
+- Read any context file or tool data
+- Write to context files
+- Update task properties (dates, size, category)
+- Suggest urgency/importance flags
+
+**Cannot do without explicit approval:**
+- Change task status (only you confirm completion)
+- Delete tasks
+- Send messages to anyone
+- Create new tasks
+- Change task names
+
+This isn't just a nice-to-have — it's a trust requirement. If an autonomous agent can silently mark your tasks as done or delete things, you'll stop trusting it. If it can only organize and suggest, you stay in control while offloading the tedious work.
+
+When designing your own autonomous skills, ask: "If this runs while I'm asleep and makes a mistake, what's the blast radius?" If the answer is "it moves a task to the wrong date," that's recoverable. If the answer is "it tells a client the project is done," that's not. Draw the line accordingly.
+
+## The distribution pattern
+
+An agent is only useful if people can install it. The EA uses a simple pattern:
+
+**`install.sh`** copies skills to `~/.claude/commands/`, creates the context directory from templates, and sets up the profile template. It never overwrites existing profiles or context — your personalization is preserved across updates.
+
+**`uninstall.sh`** removes skills and asks whether to keep or delete your profile and context.
+
+**`git pull && ./install.sh`** updates skills to the latest version without touching your data.
+
+This means the agent is:
+- **Portable** — clone, install, go
+- **Updatable** — pull new skills without losing state
+- **Removable** — clean uninstall with opt-in data deletion
+
+## What you don't need
+
+When I started, I assumed building an agent required:
+- A framework (LangChain, CrewAI, etc.)
+- A vector database for memory
+- Some kind of orchestration layer
+- A lot of code
+
+It doesn't. The entire EA is markdown files — prompts with structure. The "orchestration" is just each skill knowing which files to read and write. The "memory" is just files that persist on disk. The "framework" is just Claude Code's built-in slash command system.
+
+This isn't to say frameworks are useless. For complex multi-agent systems with tool calling, parallel execution, and error recovery, they earn their complexity. But for a single-agent system that needs to remember things and act consistently, files and prompts are enough. Start simple. Add complexity only when simple breaks.
+
+## Building your own
+
+If you want to build a stateful agent on Claude Code, here's the minimum:
+
+1. **One skill file** in `~/.claude/commands/` — start with the thing you do most often
+2. **One profile file** — your preferences, style, and goals. Even three bullet points change the behavior noticeably.
+3. **One context file** — whatever state needs to carry between sessions. Start with just `today.md`.
+
+Get that working. Use it for a week. You'll quickly see what's missing — "I wish it remembered what I delegated" → add `waiting-on.md`. "I wish it knew my energy patterns" → add energy windows to your profile. "I wish it could review my week" → add a retro skill.
+
+The EA has 13 skills, a detailed profile format, and 8 context files. It didn't start that way. It started with a morning brief and a task list. Everything else grew from actual needs.
+
+## Related entries
+
+- [AI Executive Assistant](/entry/ai-executive-assistant) — the agent built with this architecture
+- [Lessons Learned Building My First AI Agent](/entry/lessons-learned-first-ai-agent) — the personal story behind building it
+- [How MCP Integrations Supercharge Your AI Agent](/entry/mcp-integrations-supercharge-ai-agent) — how connecting tools via MCP adds the data layer
+- [Daily Productivity Cycle](/entry/daily-productivity-cycle) — the workflow that ties the skills together
