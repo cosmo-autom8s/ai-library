@@ -1,0 +1,105 @@
+---
+title: "Lessons Learned Building My First AI Agent"
+slug: lessons-learned-first-ai-agent
+description: "What I learned building my first AI agent from scratch — what surprised me, what I got wrong, and what I'd tell someone starting today."
+category: personal
+type: post
+tags: [claude-code, ai-executive-assistant, lessons-learned, agent-architecture]
+featured: false
+publishedAt: 2026-04-21
+sourceUrl: "https://github.com/cosmo-autom8s/ai-executive-assistant"
+---
+
+## How it started
+
+I have ADHD. Not all days are created equal, and my energy is volatile — from one day to the next, and even within the same day. I don't work well with traditional time-block calendars. You know the type: "2-4pm Project A, 4-6pm Project B." I'd plan that the night before, wake up the next morning, and the day would feel completely different. The plan that made sense yesterday wouldn't match my reality today.
+
+What I actually needed was deliverable-based planning with energy-aware scheduling. Not "work on this from 2 to 4" but "these three things need to get done today, and based on how I'm feeling and what my week has looked like, here's when to do each one."
+
+I'd actually hired a human executive assistant before — a real person — to handle exactly this. She was great at the admin stuff: pulling calendar events, summarizing emails, tracking tasks, drafting replies. But the one thing she couldn't do well was understand my energy patterns and build a rolling, adaptive daily schedule around them. That part required knowing me at a level that was hard to communicate and even harder to maintain consistently.
+
+So I started building an AI version. Not with a grand plan to build "an agent" — just a morning brief. I wanted to open my terminal and ask: what do I need to do today, and when should I do each thing based on how I'm feeling?
+
+That morning brief became the [AI Executive Assistant](/entry/ai-executive-assistant). And then I added everything else my human EA used to do. And then I didn't need her anymore.
+
+## I thought it would be harder
+
+Honestly, I had no idea what building an agent involved. I didn't know any frameworks. I didn't know about LangChain or CrewAI or any of the tooling people talk about. I just started talking to Claude and said "let's build this."
+
+And it worked. The MVP — a basic morning brief that pulled my tasks and calendar — came together fast. Way faster than I expected. No code, no complex setup, just a well-structured prompt in a markdown file.
+
+That was the first surprise: **getting something up and running was easy.**
+
+The second surprise was the flip side: **making it actually good was hard.**
+
+I spent about two to three hours a day for two weeks going through different scenarios, using the EA the next morning, noticing what didn't work, tweaking the prompts, and trying again. Getting it to a point where it genuinely understood how I work — my patterns, my preferences, the way I think about priorities — took real iteration. But once it clicked for me, templatizing it for anyone else was much easier. The hard part was the first version that worked for *me*.
+
+## The agent needed time to learn me
+
+My biggest early mistake was expecting the EA to be useful from day one. It wasn't. And I got frustrated about it.
+
+The thing is, the EA gets dramatically better after about a week of use. Not because the prompts change, but because the [context files](/entry/building-stateful-agent-claude-code) fill up. After a week, it has velocity data, it knows which tasks I tend to push, it's seen my energy patterns across days, and it's watched me make decisions about what to prioritize and what to defer.
+
+Out of the box, even now, the EA is at its least useful. It doesn't know you yet. It's working with an empty profile and no history. Give it a week of real usage and the output is night and day.
+
+What I'd do now is frontload that first week. Instead of waiting for the EA to passively collect data, I'd sit down on day one and tell it: "Here's how last week went. Here's what I did Monday through Friday. Here's where my energy was. Here's what I pushed, what I finished, what surprised me." Give it a week of context upfront so it has something to work with from the start.
+
+## The weekly retro surprised me
+
+I planned most of the skills deliberately — morning brief, meeting prep, task capture, delegation. I knew what I wanted and guided the design.
+
+The weekly retrospective was different. I knew I wanted *something* before the weekly planning session, but I didn't have a clear picture of what. I just told the EA: "I want a weekly retrospective." No detailed spec, no format guidance.
+
+What it came back with was surprisingly good. It had been making notes throughout the week that I didn't even know about — velocity data, completion patterns, which tasks kept rolling over. The first retro it generated was data-backed in ways I hadn't expected. It calculated my [overcommit score](/entry/weekly-retro-velocity-tracking), showed me patterns in which days were productive and which weren't, and gave specific recommendations for the next week.
+
+That was a moment where the agent did something better than I would have designed myself. It had access to all the data from the daily cycles and synthesized it in ways I wouldn't have thought to ask for.
+
+## When it became an agent
+
+For a while, I was just chatting with Claude about planning. We'd talk through my week, adjust priorities, do some replanning when things changed mid-week. It was useful but it was a conversation — I had to initiate everything, provide context every time, and remember what we'd discussed.
+
+The shift happened when I realized: I need this to pull information *proactively* every morning. Not wait for me to ask — just do it. Pull my calendar, check my tasks, read yesterday's notes, and have a plan ready when I show up.
+
+That's when the morning brief became a slash command. And once I had one slash command, the rest followed naturally. If it can plan my morning, it should track my delegations. If it tracks delegations, it should remind me to follow up. If it has all this daily data, it should analyze my week.
+
+I don't know if there was a single "aha" moment, but if I had to pick one, it was the transition from "I talk to Claude about planning" to "the EA pulls my data and presents a plan before I've even thought about it." That's when it stopped being a chat and started being an agent.
+
+## Don't try to clone a human
+
+Early on, I was trying to replicate everything my human EA did. Same tasks, same workflows, same outputs. That worked for the straightforward stuff — calendar management, email summaries, task tracking.
+
+But the real value came when I stopped thinking about what a human assistant would do and started thinking about what AI is *uniquely good at*. Pattern recognition. Processing a week's worth of data in seconds. Never forgetting a commitment. Running a cleanup process at midnight without complaining.
+
+The weekly retro is a perfect example. A human EA could give me a weekly summary, but she'd never calculate a rolling three-week overcommit score and correlate it with my meeting load. The AI does that naturally because it has all the data and no limit on how much it can process.
+
+**Use AI for what AI is good at.** Don't just automate what a human would do — find the things that are impossible or impractical for a human but trivial for an AI.
+
+## Build one skill at a time
+
+This is the biggest lesson, and it applies to any agent, not just an EA.
+
+I've built other agents since this one — more complex ones. And the ones that failed all had the same problem: I frontloaded too much. I'd design 40 skills, try to make them all work at once, and end up with an agent that did nothing well. Then I'd scrap the whole thing and start over.
+
+The EA worked because I built one skill (the morning brief), used it daily, iterated until it was genuinely good, and only then added the next skill. Each skill got tested in real life before I moved on. By the time I had 13 skills, each one had been individually validated.
+
+The temptation is to plan the whole system upfront. It feels productive. You make diagrams, you spec out every command, you think about how they'll all connect. And then you build it all at once and none of it works right because you were designing in theory, not from experience.
+
+**Build as you go.** One skill. Test it. Fix it. Trust it. Then add the next one. Do the other things manually while you're building — that's fine. A half-automated workflow that works is better than a fully-automated one that doesn't.
+
+## If you're thinking about building your first agent
+
+Just start. Seriously. It's easier than you think, and the bar is lower than you imagine. You don't need a framework. You don't need to write code. You need one prompt file with a clear structure.
+
+Pick the thing you do most often or the thing that frustrates you most. Turn it into a slash command. Use it tomorrow. It won't be perfect. That's fine. Fix what's broken, ignore what's good enough, and use it again the next day.
+
+Don't get mad when it doesn't work perfectly from the start. It needs data. It needs to learn your patterns. Give it a week before you judge it.
+
+And don't frontload. The graveyard of unused agents is full of beautifully designed systems with 40 skills that nobody actually tested one at a time. Build one thing, make it great, then build the next.
+
+## Related entries
+
+- [AI Executive Assistant](/entry/ai-executive-assistant) — the agent this post is about
+- [Building a Stateful Agent on Claude Code](/entry/building-stateful-agent-claude-code) — the technical architecture behind it
+- [How MCP Integrations Supercharge Your AI Agent](/entry/mcp-integrations-supercharge-ai-agent) — how connecting tools added the data layer
+- [Energy-Optimized Daily Planning Prompt](/entry/energy-optimized-daily-planning) — the morning brief prompt that started it all
+- [Weekly Retrospective with Velocity Tracking](/entry/weekly-retro-velocity-tracking) — the retro that surprised me
