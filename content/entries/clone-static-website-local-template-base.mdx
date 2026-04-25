@@ -1,0 +1,390 @@
+---
+title: "How To Clone A Static Website Into A Clean Local Template Base"
+slug: clone-static-website-local-template-base
+description: "A practical workflow for turning a browser-saved static website into a clean local template base you can reuse, localize, and customize."
+category: operations
+type: workflow
+tags: [codex, static-sites, website-cloning, template-building, asset-localization]
+featured: false
+publishedAt: 2026-04-25
+sourceUrl: ""
+---
+
+## What this is
+
+This is the workflow I use to turn an existing static website into a reusable local template base.
+
+Not a redesign process. Not a rebrand process. Not a “download a page and ship it” shortcut.
+
+The goal is narrower and more useful:
+
+- capture the structure of a static site
+- rebuild it cleanly inside a local project
+- pull dependencies local
+- end up with a stable template you can customize afterward
+
+That distinction matters. The browser save is not the finished product. It is source material.
+
+## What this workflow is for
+
+This process works best for:
+
+- brochure websites
+- hospitality sites
+- restaurant, hotel, chalet, and pension pages
+- small multi-page HTML/CSS/JS sites
+- projects where the important content is already present in the HTML
+
+This process is a bad fit for:
+
+- web apps with authentication
+- products that rely heavily on APIs
+- JavaScript-heavy apps where the real content only appears after runtime
+- anything where “save page” captures only a shell
+
+If the site is fundamentally dynamic, this workflow will give you a broken imitation. If the site is mostly static, it gives you a clean starting point fast.
+
+## The core idea
+
+Most people make the same mistake the first time they try this: they save the website from the browser, open the HTML, see that it kind of works, and assume they’re done.
+
+They’re not done. They’ve captured a messy snapshot.
+
+Browser-saved pages usually include a mix of:
+
+- useful layout and content structure
+- broken or partial asset references
+- analytics and tracking junk
+- extension-injected scripts
+- Cloudflare or CDN noise
+- inline styles and metadata you do not want to keep
+
+If you ship that raw save, you inherit all the mess.
+
+The better move is:
+
+1. save the source page fully
+2. inspect what was actually captured
+3. extract the meaningful structure
+4. rebuild that structure inside a clean local project
+5. localize assets and dependencies until the result is stable
+
+That is how a one-off browser snapshot becomes a reusable template base.
+
+## The workflow
+
+### 1. Save the source page fully from the browser
+
+Start with a full browser save, not just the HTML file.
+
+What you usually want is:
+
+- `Some Page.html`
+- `Some Page_files/`
+
+Without the sibling assets folder, the saved page is usually incomplete. Images, CSS, scripts, icons, and helper files often live there.
+
+Keep the HTML file and its matching `_files` folder together.
+
+## 2. Put the saved page beside the target project
+
+Place the saved export in the same workspace as the destination project.
+
+This gives you two things to compare:
+
+- the messy source material
+- the clean local project you actually want to keep
+
+If you plan to clone multiple pages, keep each export intact until the inspection phase is done. Renaming too early makes the asset mapping harder than it needs to be.
+
+## 3. Classify the destination before touching anything
+
+Before you start copying sections around, inspect the destination project and identify what it actually is.
+
+You want clear answers to questions like:
+
+- is this a plain static site or a framework app
+- what files already exist
+- which pages are real and which are placeholders
+- what CSS and JS structure is already present
+- what shared includes or layout patterns already exist
+
+This step changes the cloning strategy.
+
+If the destination is a plain static site, you can edit HTML directly and keep a simple local asset structure.
+
+If it is a framework project, the job is different. You are not “copying a page.” You are reconstructing the page inside the conventions of that framework.
+
+## 4. Treat the saved HTML as source material, not production code
+
+This is the rule that makes the rest of the workflow work.
+
+Do not ship the raw browser-saved HTML.
+
+Read it to find the parts that matter:
+
+- navbar structure
+- hero layout
+- section order
+- cards, lists, sliders, galleries
+- footer structure
+- image and media references
+
+Ignore the parts that do not belong in your rebuilt project:
+
+- analytics
+- browser extension artifacts
+- saved-page metadata
+- injected scripts
+- duplicate resources
+- broken references
+
+The point is not to preserve the save exactly. The point is to preserve the useful structure faithfully.
+
+## 5. Rebuild the page inside the clean local framework
+
+Once you understand the source page, rebuild it inside the destination project instead of pasting the saved output wholesale.
+
+That usually means:
+
+- reuse the project’s own head includes
+- reuse the local CSS and JS conventions
+- reuse shared navbar and footer patterns
+- transplant the meaningful content structure from the source
+
+When I want a high-fidelity result, the instruction is basically:
+
+“Make this page a 1:1 copy in layout and content, but build it using the clean local project structure.”
+
+That one distinction prevents a lot of future pain.
+
+## 6. Inventory every asset dependency
+
+After the page is rebuilt, stop and classify the assets before you do more work.
+
+In practice, they fall into three buckets:
+
+**Already local**
+
+- shared CSS
+- shared JS
+- common images
+- existing vendor assets
+
+**Captured in the saved source folder**
+
+- page-specific photos
+- gallery images
+- page-level media
+
+**Referenced but missing**
+
+- remotely loaded hero images
+- videos not included in the save
+- CDN-hosted fonts
+- icon fonts and binaries
+
+This step tells you whether the project is actually becoming local or just looks local on the surface.
+
+## 7. Move useful assets into the project’s own structure
+
+Do not leave the project permanently dependent on the browser-generated `_files` folder.
+
+Copy the useful assets into a structure that makes sense for the destination project, for example:
+
+- `assets/img/common/`
+- `assets/img/gallery/`
+- `assets/img/objectives/`
+- `assets/img/rooms/`
+- `assets/vendor/fonts/`
+- `assets/vendor/bootstrap-icons/`
+
+Then update the page to use those local paths.
+
+This is the point where a messy scrape starts turning into a maintainable template.
+
+## 8. Search explicitly for remote dependencies
+
+A page rendering locally does not mean it is truly local.
+
+You need to search the rebuilt project for remote references, including:
+
+- original site URLs
+- CDN URLs
+- Google Fonts
+- jsDelivr
+- external image paths
+- external video sources
+
+This tells you what is still coupled to the original site or third-party infrastructure.
+
+If you skip this step, you usually discover the remaining dependencies only after deploying, moving machines, or trying to reuse the template later.
+
+## 9. Back up before the final localization pass
+
+Before you start mass-rewriting asset references and vendoring dependencies, create a backup.
+
+This does not need to be fancy. A timestamped archive is enough.
+
+What matters is having a rollback point before you:
+
+- replace remote references
+- copy large groups of assets
+- rewrite vendor CSS
+- localize fonts and icon files
+
+It is a small step that saves a lot of time when something gets broken halfway through.
+
+## 10. Localize the remaining practical dependencies
+
+Now you pull local everything that should reasonably be local.
+
+Typical examples:
+
+- missing hero images
+- Google Fonts stylesheets
+- font binaries
+- icon font CSS
+- icon font binaries
+- vendor CSS files
+
+The repeatable pattern is:
+
+1. download the stylesheet
+2. inspect it
+3. find the binary URLs it depends on
+4. download those files too
+5. rewrite the stylesheet to use local relative paths
+
+This is how you turn a “mostly local” site into a stable local template.
+
+## 11. Rewire the pages to use the local vendor assets
+
+Once the local copies exist, replace the remote references in the page head and anywhere else they appear.
+
+Typical changes look like:
+
+- Google Fonts URL replaced with a local stylesheet
+- Bootstrap Icons CDN replaced with a local vendored copy
+- remotely loaded hero image replaced with a local file
+
+After this step, the page should no longer depend on outside services for its core rendering, except for deliberate exceptions you decide to keep.
+
+## 12. Document any exceptions explicitly
+
+Sometimes you cannot localize everything cleanly on the first pass.
+
+That is fine. Hidden exceptions are the problem, not documented ones.
+
+For example:
+
+- gallery videos may still be remote
+- a third-party embed may remain live
+- a missing source asset may be scheduled for replacement later
+
+The important thing is to know exactly what is still remote and why.
+
+Unknown dependencies are technical debt. Known dependencies are decisions.
+
+## 13. Normalize the shared structure
+
+Once the pages exist and most dependencies are local, normalize the shared pieces so the project behaves like one coherent template instead of a stack of copied pages.
+
+That usually includes:
+
+- consistent navbar markup
+- consistent footer markup
+- shared hero patterns
+- shared asset includes
+- cleaned-up placeholder text where needed
+
+This is where the clone stops feeling like a salvage job and starts feeling like a reusable base.
+
+## 14. Document the template state
+
+Before you call the cloning phase done, update the project guide.
+
+Document:
+
+- what pages exist
+- what assets are fully local
+- what remains remote
+- which files are expected to be edited during customization
+- which images or media are placeholders
+
+That final bit is what turns the work into a repeatable asset instead of a one-off project only you understand.
+
+## The operating rules behind the workflow
+
+The steps matter, but the rules matter more.
+
+### Rule 1: Never trust browser-saved HTML as production code
+
+Treat it as evidence. Not as the final implementation.
+
+### Rule 2: Rebuild into the clean local project, not around it
+
+The destination structure should win. The saved page should inform it, not replace it.
+
+### Rule 3: Move assets into the project’s own folders
+
+If the site still depends on `_files`, it is not really cloned yet.
+
+### Rule 4: Search for remote references on purpose
+
+Do not assume a working local page is a self-contained local page.
+
+### Rule 5: Make exceptions explicit
+
+Remote videos, embeds, or missing assets are acceptable temporarily if they are documented clearly.
+
+### Rule 6: Back up before localization
+
+Mass asset rewiring is exactly the kind of work where a backup pays for itself.
+
+## What “done” looks like
+
+The cloning phase is complete when you have:
+
+- local HTML pages that render correctly
+- local CSS and JS for core rendering
+- organized local media folders
+- local fonts and icon assets, or explicit documentation for what remains remote
+- consistent shared elements across the pages
+- a known list of unresolved dependencies
+- a project guide that explains the template state
+
+At that point, you have something useful:
+
+not just a copy of a website, but a clean local template base.
+
+That is when phase two can begin:
+
+- replace copy
+- replace media
+- change branding
+- update colors and fonts
+- adapt it for the new business
+
+Those are customization tasks. They come after the clone is structurally sound.
+
+## Why this workflow works
+
+It works because it separates three jobs that people often blur together:
+
+1. **capture** the original site
+2. **rebuild** it cleanly in a local project
+3. **customize** it afterward
+
+When you blur those phases, you get messy projects that are hard to reuse and harder to trust.
+
+When you separate them, you get a stable base first. Then you can redesign it, rebrand it, or adapt it without wondering which parts are still secretly tied to the original site.
+
+That is the real output of the process: clarity.
+
+## Next logical follow-ups
+
+If you continue this topic as a series, the next two pieces should be:
+
+- a principles post on why raw browser-saved HTML should never be treated as production code
+- a Codex-focused workflow entry on the exact prompt pattern for rebuilding saved pages inside a clean local project
