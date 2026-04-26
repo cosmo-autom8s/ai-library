@@ -1,0 +1,314 @@
+---
+title: "Using AI To Recreate Any Website"
+slug: using-ai-to-recreate-any-website
+description: "A practical workflow for using an AI coding agent to inspect, rebuild, localize, and document a website clone without shipping raw browser-saved HTML."
+category: operations
+type: workflow
+tags: [codex, website-cloning, static-sites, ai-workflows, asset-localization]
+featured: false
+publishedAt: 2026-04-26
+sourceUrl: ""
+---
+
+## What this is
+
+This is the AI-assisted workflow I use when I want to recreate an existing website locally without manually rebuilding every page from scratch.
+
+The promise is not magic. The AI is not “copying the internet.” It is doing something more practical:
+
+- inspecting the target project
+- reading the saved source pages
+- extracting the useful structure
+- rebuilding pages inside a clean local codebase
+- finding missing dependencies
+- pulling practical assets local
+- documenting what still needs attention
+
+Used well, this turns AI from a code autocomplete toy into a real site-reconstruction operator.
+
+## First: “any website” has limits
+
+The title is intentionally broad, but the workflow is strongest on:
+
+- static brochure sites
+- marketing sites
+- hospitality sites
+- small HTML/CSS/JS multi-page sites
+- websites whose key content is visible in the saved HTML
+
+It gets weaker when the site depends on:
+
+- authentication
+- APIs
+- complex client-side runtime logic
+- dashboards and web apps
+- content that only appears after app state loads
+
+So the honest version is:
+
+AI can help you recreate almost any website’s visible structure, but it is best at recreating **static websites cleanly**. Dynamic apps are a different job.
+
+## The mistake most people make
+
+They save a page from the browser, hand the raw HTML to an AI, and ask it to “clone this.”
+
+That usually produces one of two bad outcomes:
+
+1. the AI pastes the messy saved HTML back out with all the junk intact
+2. the AI makes a loose imitation that looks right at first glance but misses the actual structure, assets, and dependencies
+
+Neither is what you want.
+
+The better mental model is:
+
+- the saved page is source material
+- the destination project is the real product
+- the AI’s job is reconstruction, not blind copying
+
+That framing changes the quality of the result dramatically.
+
+## What the AI should actually do
+
+The AI’s job is not “generate a website.”
+
+Its job is to do the reconstruction work a careful engineer would do:
+
+### 1. Inspect the destination first
+
+Before touching the saved page, the AI should inspect the project it is rebuilding into and answer:
+
+- is this a static site or a framework app
+- what files already exist
+- what shared includes and layout patterns are already there
+- which pages are real and which are placeholders
+- what CSS, JS, and asset conventions already exist
+
+If the AI skips this, it tends to build in the wrong style or duplicate structures the project already has.
+
+### 2. Read the saved page like evidence
+
+Browser-saved HTML is noisy. The AI should treat it as evidence, not as code to preserve.
+
+It needs to separate:
+
+- meaningful layout structure
+- meaningful copy and content sections
+- useful asset references
+
+from:
+
+- analytics
+- extension junk
+- injected scripts
+- CDN clutter
+- broken saved-page metadata
+
+This is where AI is genuinely useful. It is good at pattern recognition across messy markup.
+
+### 3. Rebuild the page inside the clean project
+
+Once the structure is understood, the AI should rebuild the page using the destination project’s own conventions.
+
+That means:
+
+- keep the local head includes
+- keep the local shared styles and scripts
+- keep the project’s navbar/footer patterns
+- transplant the source structure and content into that system
+
+This is the difference between a clone and a salvage dump.
+
+### 4. Inventory dependencies
+
+Once the page exists locally, the AI should classify dependencies into:
+
+- already local
+- captured in the saved source folder
+- referenced but missing
+
+This is one of the highest-value parts of the workflow because humans often miss hidden external dependencies until much later.
+
+### 5. Localize what can reasonably be localized
+
+The AI should then:
+
+- move useful assets into the project’s own folders
+- replace references to `_files` assets
+- vendor fonts and icon assets when practical
+- replace remote image references with local copies where possible
+- search for remaining remote dependencies
+
+This turns a fragile copy into a reusable template base.
+
+### 6. Document what remains
+
+If some assets still stay remote, that should be documented directly.
+
+The AI should not leave you with a project that “mostly works” while quietly depending on the original site for fonts, icons, videos, or images.
+
+Known exceptions are manageable. Unknown ones are how bad clones survive until deployment day.
+
+## The human/AI split
+
+This workflow works best when the responsibilities are clear.
+
+### Human
+
+The human should:
+
+- choose the source site
+- save the source pages from the browser
+- provide the destination project
+- define the required fidelity
+- approve judgment calls when the source is ambiguous
+
+### AI
+
+The AI should:
+
+- inspect the destination
+- strip junk from the saved page
+- rebuild the page inside the local structure
+- inventory assets and dependencies
+- organize and relink local assets
+- identify what is still remote
+- document the result
+
+This division matters because the AI is very good at repetitive inspection and reconstruction, but it should not be the one deciding strategic product questions on its own.
+
+## The prompt pattern that works
+
+The most effective interaction pattern is usually not one giant prompt. It is a short sequence.
+
+### Prompt 1: classify the destination
+
+Ask the AI to inspect the target folder and tell you:
+
+- what kind of project it is
+- what already exists
+- what the page structure and shared includes look like
+- what constraints it should preserve
+
+### Prompt 2: recreate one page inside that structure
+
+Give it the saved page and tell it:
+
+- which page to recreate
+- what level of fidelity you want
+- to use the clean local framework, not the raw saved output
+
+The key phrase is some variation of:
+
+“Recreate this page as closely as possible, but do it using the target project’s existing structure and conventions.”
+
+### Prompt 3: audit dependencies
+
+After the rebuild, ask:
+
+- what assets are already local
+- what assets only exist in the saved export
+- what dependencies are still remote or missing
+
+### Prompt 4: localize what is practical
+
+Then ask the AI to:
+
+- move the useful assets into the proper project folders
+- vendor remaining practical dependencies
+- replace remote references with local ones where possible
+
+### Prompt 5: document the final state
+
+Finally, ask it to tell you:
+
+- what is fully local
+- what remains remote
+- what files matter for future customization
+
+This sequence works better than a single giant ask because it forces the AI to do the work in the right order.
+
+## Why AI is good at this
+
+This is one of the better use cases for an AI coding agent because the work has a particular shape:
+
+- lots of messy source material
+- a need for structural pattern recognition
+- many repetitive asset and reference updates
+- constant comparison between “what exists” and “what should exist”
+
+Humans are still better at taste, product decisions, and knowing when a page is “close enough.”
+
+But AI is extremely useful at:
+
+- reading large ugly HTML files
+- spotting structure across noisy markup
+- tracing asset references
+- cleaning repeated boilerplate
+- rebuilding sections consistently
+- searching for remote URLs across a project
+
+This is not because it “understands design” in some magical way. It is because reconstruction is part analysis, part repetition, and that is where agents help most.
+
+## Where AI usually fails
+
+There are a few common failure modes.
+
+### It trusts the saved page too much
+
+This leads to raw saved-page junk surviving into the rebuilt project.
+
+### It ignores the destination project
+
+This creates pages that look close enough visually but break the local structure and shared conventions.
+
+### It stops after the page looks correct
+
+This is the dangerous one. A visually correct clone can still depend on remote fonts, icon libraries, hero images, or scripts.
+
+### It overreaches on dynamic apps
+
+If the source site is really an app, the AI may confidently reconstruct the shell while missing the system that actually makes it work.
+
+These are not reasons to avoid the workflow. They are reasons to drive it properly.
+
+## What “done” should mean
+
+If you are using AI to recreate a website, “done” should not mean:
+
+- the homepage loads
+
+It should mean:
+
+- the rebuilt pages exist locally
+- they use the clean local structure
+- core images, CSS, JS, fonts, and icons are local or explicitly documented
+- shared elements are normalized
+- remaining remote dependencies are known and intentional
+- the result is ready for a separate customization phase
+
+That final point matters.
+
+Recreating the site is phase one.
+Changing the brand, copy, images, and business details is phase two.
+
+If you blend them together too early, the project gets messy fast.
+
+## The real value
+
+The real value is not that AI saves you from writing HTML.
+
+The value is that it compresses the most tedious part of the process:
+
+- inspecting a messy saved page
+- finding the real structure inside it
+- rebuilding it inside a clean local system
+- hunting down asset dependencies
+- documenting what still needs cleanup
+
+That is the kind of work AI helps with best: not inventing from nothing, but accelerating reconstruction with discipline.
+
+Used that way, AI becomes a practical cloning partner.
+
+## Related entries
+
+- [How To Clone A Static Website Into A Clean Local Template Base](/entry/clone-static-website-local-template-base)
