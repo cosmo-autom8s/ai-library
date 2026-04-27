@@ -1,6 +1,11 @@
 import { entries } from "#site/content";
 
 export type Entry = (typeof entries)[number];
+export type CategorySlug = Entry["category"][number];
+
+export function getPrimaryCategory(entry: Entry): CategorySlug {
+  return entry.category[0];
+}
 
 export function getAllEntries(): Entry[] {
   return [...entries].sort(
@@ -13,8 +18,8 @@ export function getFeaturedEntries(): Entry[] {
   return getAllEntries().filter((entry) => entry.featured);
 }
 
-export function getEntriesByCategory(categorySlug: string): Entry[] {
-  return getAllEntries().filter((entry) => entry.category === categorySlug);
+export function getEntriesByCategory(categorySlug: CategorySlug): Entry[] {
+  return getAllEntries().filter((entry) => entry.category.includes(categorySlug));
 }
 
 export function getEntriesByType(type: string): Entry[] {
@@ -61,7 +66,7 @@ export function getRelatedEntries(entry: Entry, limit = 3): Entry[] {
     .filter((candidate) => candidate.slug !== entry.slug)
     .filter(
       (candidate) =>
-        candidate.category === entry.category ||
+        candidate.category.some((category) => entry.category.includes(category)) ||
         candidate.tags.some((tag) => entry.tags.includes(tag)),
     )
     .slice(0, limit);

@@ -35,7 +35,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   if (!category) notFound();
 
-  const categoryEntries = getEntriesByCategory(slug);
+  const categoryEntries = getEntriesByCategory(category.slug);
   const categoryTags = Array.from(
     new Set(categoryEntries.flatMap((entry) => entry.tags)),
   );

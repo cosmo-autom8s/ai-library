@@ -26,7 +26,7 @@ const entries = defineCollection({
     title: s.string().max(200),
     slug: s.slug("entries"),
     description: s.string().max(500),
-    category: s.enum(categories),
+    category: s.array(s.enum(categories)),
     type: s.enum(entryTypes),
     tags: s.array(s.string()),
     featured: s.boolean().default(false),

@@ -1,9 +1,10 @@
 import { ExternalLink, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 import { Breadcrumb } from "@/components/breadcrumb";
 import { TagPills } from "@/components/tag-pills";
 import { CATEGORIES, TYPE_COLORS } from "@/lib/constants";
-import { formatDate, type Entry } from "@/lib/entries";
+import { formatDate, getPrimaryCategory, type Entry } from "@/lib/entries";
 import { cn } from "@/lib/utils";
 
 interface EntryDetailProps {
@@ -11,7 +12,9 @@ interface EntryDetailProps {
 }
 
 export function EntryDetail({ entry }: EntryDetailProps) {
-  const category = CATEGORIES.find((item) => item.slug === entry.category);
+  const primaryCategory = CATEGORIES.find(
+    (item) => item.slug === getPrimaryCategory(entry),
+  );
 
   return (
     <article className="mx-auto max-w-4xl px-4 py-10">
@@ -19,8 +22,8 @@ export function EntryDetail({ entry }: EntryDetailProps) {
         items={[
           { label: "Home", href: "/" },
           {
-            label: category?.label ?? entry.category,
-            href: `/category/${entry.category}`,
+            label: primaryCategory?.label ?? getPrimaryCategory(entry),
+            href: `/category/${getPrimaryCategory(entry)}`,
           },
           { label: entry.title },
         ]}
@@ -60,7 +63,23 @@ export function EntryDetail({ entry }: EntryDetailProps) {
           </div>
         </div>
 
-        <div className="mt-6">
+        <div className="mt-6 flex flex-wrap gap-2">
+          {entry.category.map((category) => {
+            const categoryMeta = CATEGORIES.find((item) => item.slug === category);
+
+            return (
+              <Link
+                key={category}
+                href={`/category/${category}`}
+                className="rounded-full border border-card-border bg-background/40 px-3 py-1 text-xs font-bold text-helper transition-colors hover:border-border hover:text-heading"
+              >
+                {categoryMeta?.label ?? category}
+              </Link>
+            );
+          })}
+        </div>
+
+        <div className="mt-4">
           <TagPills tags={entry.tags} />
         </div>
 

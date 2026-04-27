@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Clock, Sparkles } from "lucide-react";
 
 import { CATEGORIES, TYPE_COLORS } from "@/lib/constants";
-import { formatDate, type Entry } from "@/lib/entries";
+import { formatDate, getPrimaryCategory, type Entry } from "@/lib/entries";
 import { cn } from "@/lib/utils";
 
 interface EntryCardProps {
@@ -10,7 +10,12 @@ interface EntryCardProps {
 }
 
 export function EntryCard({ entry }: EntryCardProps) {
-  const category = CATEGORIES.find((item) => item.slug === entry.category);
+  const primaryCategory = CATEGORIES.find(
+    (item) => item.slug === getPrimaryCategory(entry),
+  );
+  const categoryLabels = entry.category
+    .map((slug) => CATEGORIES.find((item) => item.slug === slug)?.label ?? slug)
+    .join(" • ");
 
   return (
     <Link
@@ -39,6 +44,19 @@ export function EntryCard({ entry }: EntryCardProps) {
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
+        {entry.category.map((category) => {
+          const categoryLabel =
+            CATEGORIES.find((item) => item.slug === category)?.label ?? category;
+
+          return (
+            <span
+              key={category}
+              className="rounded-full border border-card-border bg-background/40 px-3 py-1 text-xs font-bold text-helper"
+            >
+              {categoryLabel}
+            </span>
+          );
+        })}
         <span
           className={cn(
             "rounded-full px-3 py-1 text-xs font-black",
@@ -58,7 +76,10 @@ export function EntryCard({ entry }: EntryCardProps) {
       </div>
 
       <div className="mt-6 flex items-center justify-between border-t border-card-border pt-4 text-sm font-bold text-helper">
-        <span>{category?.label ?? entry.category}</span>
+        <span title={categoryLabels}>
+          {primaryCategory?.label ?? getPrimaryCategory(entry)}
+          {entry.category.length > 1 ? ` +${entry.category.length - 1}` : ""}
+        </span>
         <span className="flex items-center gap-1.5">
           <Clock className="size-4" />
           {formatDate(entry.publishedAt)}

@@ -1,6 +1,6 @@
 {
   "name": "ai-knowledge-library",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "private": true,
   "scripts": {
     "predev": "velite",
